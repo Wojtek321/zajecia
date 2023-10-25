@@ -5,12 +5,13 @@
 using namespace std;
 
 
+int licznik;
 void naiwyny(int *tab, int size);
 void optymalny(int *tab, int size);
-ofstream output("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad3\\Out0103.txt");
+ofstream output("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia1_zad3\\Out0103.txt");
 
 int main() {
-    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad3\\In0103.txt");
+    ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia1_zad3\\In0103.txt");
 
     int n, a, i=0;
     file>>n;
@@ -23,7 +24,9 @@ int main() {
     }
     file.close();
 
+    licznik = 0;
     naiwyny(tab, n);
+    licznik = 0;
     optymalny(tab, n);
 
     delete []tab;
@@ -68,7 +71,8 @@ void naiwyny(int *tab, int size)
         int suma = 0;
         for(int j=i; j<size; j++)
         {
-            suma+=tab[j];
+            suma += tab[j];
+            licznik++;
 
             if (suma>maxsuma)
             {
@@ -80,6 +84,7 @@ void naiwyny(int *tab, int size)
     }
     start++;
     koniec++;
+    licznik += 2;
 
-    output<<start<<", "<<koniec<<", "<<maxsuma<<endl;
+    output<<start<<", "<<koniec<<", "<<maxsuma<<", licz = "<<licznik<<endl;
 }
