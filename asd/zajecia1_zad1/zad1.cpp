@@ -11,11 +11,11 @@ int SN3(int n, int k);
 
 int main() {
     int n, k;
-    ifstream file("In0101.txt");
+    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad1\\In0101.txt");
     file>>n>>k;
     file.close();
 
-    ofstream output("Out0101.txt");
+    ofstream output("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad1\\Out0101.txt");
     output<<"n="<<n<<" k="<<k<<endl;
     licznik = 0;
     output<<"SN1 = "<<SN1(n, k)<<", licz = "<<licznik<<endl;

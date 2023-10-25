@@ -7,10 +7,10 @@ using namespace std;
 
 void naiwyny(int *tab, int size);
 void optymalny(int *tab, int size);
-ofstream output("Out0103.txt");
+ofstream output("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad3\\Out0103.txt");
 
 int main() {
-    ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia1_zad3\\In0103.txt");
+    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia1_zad3\\In0103.txt");
 
     int n, a, i=0;
     file>>n;
