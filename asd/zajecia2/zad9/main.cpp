@@ -4,12 +4,23 @@
 using namespace std;
 
 void przeciecie(int A[], int B[], int n, ofstream &out);
-bool szukaj(int a, int tab[], int n);
+bool binary_search(int a, int tab[], int n);
 
 int main()
 {
-    int A[] = {9, 4, 6, 11, 24, 12, 16, 49, 33, 16, 8, 18};
-    int B[] = {1, 3, 4, 6, 7, 8, 9, 12, 16, 18, 25, 27};
+    int n;
+    ifstream file(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad9\In0209.txt)");
+    file>>n;
+    int *A = new int[n];
+    int *B = new int[n];
+
+    for(int i=0; i<n; i++)
+        file>>A[i];
+    for(int i=0; i<n; i++)
+        file>>B[i];
+
+    file.close();
+
 
     ofstream out(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad9\Out0209.txt)");
     przeciecie(A, B, 12, out);
@@ -22,7 +33,7 @@ void przeciecie(int A[], int B[], int n, ofstream &out)
 
     for(int i=0; i<n; i++)
     {
-        if(szukaj(A[i], B, 12))
+        if(binary_search(A[i], B, 12))
         {
             out<<A[i]<<" ";
             licznik++;
@@ -32,7 +43,7 @@ void przeciecie(int A[], int B[], int n, ofstream &out)
     out<<endl<<licznik<<endl;
 }
 
-bool szukaj(int a, int tab[], int n)
+bool binary_search(int a, int tab[], int n)
 {
     int l = 0, r = n-1, sr;
 
