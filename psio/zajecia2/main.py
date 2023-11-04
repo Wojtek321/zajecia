@@ -203,17 +203,17 @@ import struct
 
 # Zadanie 5
 
-CZESTOTLIWOSC = {
-    'C': 261.626,
-    'D': 293.665,
-    'E': 329.628,
-    'F': 349.228,
-    'G': 391.995,
-    'A': 440,
-    'H': 493.883,
+FREQUENCY = {
+    'C': 523.251,
+    'D': 587.329,
+    'E': 659.255,
+    'F': 698.456,
+    'G': 783.990,
+    'A': 880,
+    'H': 987.766,
 }
 
-MELODIA = [
+MELODY = [
     ('G', 1), ('E', 1), ('E', 1), ('F', 1), ('D', 1), ('D', 1),
     ('C', 0.5), ('E', 0.5), ('G', 2),
     ('G', 1), ('E', 1), ('E', 1), ('F', 1), ('D', 1), ('D', 1),
@@ -228,10 +228,10 @@ FS = 44100
 TIME = 0.5
 SOUNDS = []
 
-def generate_sound(czestotliwosc, czas):
-    t = np.arange(start=0, stop=czas, step=1 / FS)
+def generate_sound(frequency, time):
+    t = np.arange(start=0, stop=time, step=1 / FS)
     n = np.arange(start=0, stop=len(t))
-    sound = 0.3 * np.sin(2 * np.pi * czestotliwosc * n / FS)
+    sound = 0.3 * np.sin(2 * np.pi * frequency * n / FS)
 
     fade_in = np.linspace(0, 1, int(0.05 * FS))
     fade_out = np.linspace(1, 0, int(0.05 * FS))
@@ -242,8 +242,8 @@ def generate_sound(czestotliwosc, czas):
     return sound
 
 
-for nuta in MELODIA:
-    sound = generate_sound(CZESTOTLIWOSC[nuta[0]], TIME*float(nuta[1]))
+for note in MELODY:
+    sound = generate_sound(FREQUENCY[note[0]], TIME*float(note[1]))
     SOUNDS.extend(sound)
 
 sd.play(SOUNDS, FS)
