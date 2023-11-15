@@ -9,11 +9,11 @@ void tree(ofstream &output, int n, int a);
 int main()
 {
     int n;
-    ifstream input(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad2\In0202.txt)");
+    ifstream input(R"(In0202.txt)");
     input>>n;
     input.close();
 
-    ofstream output(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad2\Out0202.txt)");
+    ofstream output(R"(Out0202.txt)");
     tree(output, n, 0);
     output.close();
 }

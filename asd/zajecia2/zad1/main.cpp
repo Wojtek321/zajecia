@@ -9,7 +9,7 @@ void swap(int *tab, int i, int j);
 int main()
 {
     int n;
-    fstream file(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad1\In0201.txt)");
+    fstream file(R"(In0201.txt)");
     file >> n;
     int *tab = new int[n];
     for(int i=0; i<n; i++)
@@ -20,7 +20,7 @@ int main()
 
     quick_sort(tab, 0, n-1);
 
-    ofstream output(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad1\Out0201.txt)");
+    ofstream output(R"(Out0201.txt)");
     for(int i=0; i<n; i++)
     {
         output<<tab[i]<<" ";
