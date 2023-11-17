@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.linalg import dft
 
 
 # N = 32
@@ -256,3 +257,82 @@ import matplotlib.pyplot as plt
 # plt.tight_layout()
 # plt.savefig("zad3b.png")
 # # plt.show()
+
+
+
+
+
+
+# N = 32
+# k=1
+# phi = np.pi/2
+# n = np.arange(start=0, stop=N)
+# y = np.exp(1j*((2*np.pi * k/N * n) + phi))
+# y_re = np.real(y)
+# y_im = np.imag(y)
+# fft = 2*np.fft.fft(y)/N
+# ftt_re = np.real(fft)
+# fft_im = np.imag(fft)
+# fft_abs = np.abs(fft)
+# fft_ang = np.angle(fft)/np.pi
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y_re)
+# plt.title("Re(y)")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(y_im)
+# plt.title("Im(y)")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(ftt_re)
+# plt.title("Re(fft(y))")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Amplituda")
+# plt.axis((0, 31, -1, 1))
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(fft_im)
+# plt.title("Im(fft(y))")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(fft_abs)
+# plt.title("Modul(fft(y))")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(fft_ang)
+# plt.title("Phase(fft(y))")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("zadanie4.png")
+
+
+
+
+
+
+
+def DFT(y):
+    n = len(y)
+    dft_matrix = dft(n=n)
+    return dft_matrix
+
+def IDFT(y):
+    pass
+
+
+
+
+
+
