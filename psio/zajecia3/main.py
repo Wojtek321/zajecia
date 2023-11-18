@@ -36,7 +36,8 @@ y2 = 0.5*np.cos(4*np.pi*n/N)
 y3 = 0.25*np.cos(8*np.pi*n/N + np.pi/2)
 y4 = y1 + y2 + y3
 
-plt.plot(y1, label='y1[n] = cos(2πn/N+π/4)'); plt.plot(y2, label='y2[n] = 0.5cos(4πn/N)'); plt.plot(y3, label='y3[n] = 0.25cos(8πn/N+π/2)'); plt.legend(loc='upper right'); plt.xlabel("Numer probki"); plt.ylabel("Amplituda"); plt.grid(True)
+plt.plot(y1, label='y1[n] = cos(2πn/N+π/4)'); plt.plot(y2, label='y2[n] = 0.5cos(4πn/N)'); plt.plot(y3, label='y3[n] = 0.25cos(8πn/N+π/2)')
+plt.legend(loc='upper right'); plt.xlabel("Numer probki"); plt.ylabel("Amplituda"); plt.grid(True)
 plt.savefig("Zadanie2_1")
 
 y1_fft = 2*np.fft.fft(y1)/N
@@ -305,7 +306,8 @@ fft_prostokatne = np.abs(2*np.fft.fft(y * prostokatne)/N)
 fig, axs = plt.subplots(3, 3)
 fig.set_size_inches(18, 16)
 ax = axs[0,0]; ax.stem(y); ax.set_title("y"); ax.set_xlabel("Numer Probki"); ax.set_ylabel("Amplituda")
-ax = axs[0,1]; ax.set_xlabel("Numer Probki"); ax.set_ylabel("Waga"); ax.plot(n, bartlett, label='Bartlett'); ax.plot(n, hamming, label='Hamming'); ax.plot(n, hann, label='Hann'); ax.plot(n, kaiser, label='Kaiser'); ax.plot(n, prostokatne, label='Okno Prostokatne'); ax.legend()
+ax = axs[0,1]; ax.set_xlabel("Numer Probki"); ax.set_ylabel("Waga"); ax.plot(n, bartlett, label='Bartlett'); ax.plot(n, hamming, label='Hamming')
+ax.plot(n, hann, label='Hann'); ax.plot(n, kaiser, label='Kaiser'); ax.plot(n, prostokatne, label='Okno Prostokatne'); ax.legend()
 ax = axs[1,0]; ax.stem(fft_abs); ax.set_title("Modul FFT - Brak Okna"); ax.set_xlabel("Numer Pasma Czestotliwosciowego"); ax.set_ylabel("Magnituda")
 ax = axs[1,1]; ax.stem(fft_bartlett); ax.set_title("Modul FFT - Bartlett"); ax.set_xlabel("Numer Pasma Czestotliwosciowego"); ax.set_ylabel("Magnituda")
 ax = axs[1,2]; ax.stem(fft_hamming); ax.set_title("Modul FFT - Hamming"); ax.set_xlabel("Numer Pasma Czestotliwosciowego"); ax.set_ylabel("Magnituda")
