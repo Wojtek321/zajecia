@@ -192,7 +192,7 @@ plt.subplot(3, 2, 4); plt.stem(fft_moje_abs); plt.title("Modul Widma - Funkcja W
 plt.subplot(3, 2, 5); plt.stem(fft_ang); plt.title("Faza Widma FFT"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Faza [pi x rad]")
 plt.subplot(3, 2, 6); plt.stem(fft_moje_ang); plt.title("Faza Widma - Funkcja Wlasna"); plt.ylabel("Faza [pi x rad]"); plt.xlabel("Numer pasma czestotliwosciowego")
 plt.tight_layout()
-plt.savefig("wykres5a.png")
+plt.savefig("Zadanie5a.png")
 
 
 
@@ -217,7 +217,7 @@ plt.subplot(3, 2, 4); plt.stem(y1_fft_abs_moje); plt.title("Modul Widma - Funkcj
 plt.subplot(3, 2, 5); plt.stem(y1_fft_ang); plt.title("Faza Widma FFT"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Faza [pi x rad]")
 plt.subplot(3, 2, 6); plt.stem(y1_fft_ang_moje); plt.title("Faza Widma - Funkcja Wlasna"); plt.ylabel("Faza [pi x rad]"); plt.xlabel("Numer pasma czestotliwosciowego")
 plt.tight_layout()
-plt.savefig("wykres5b_y1.png")
+plt.savefig("Zadanie5b_y1.png")
 
 
 
@@ -238,7 +238,7 @@ plt.subplot(3, 2, 4); plt.stem(y2_fft_abs_moje); plt.title("Modul Widma - Funkcj
 plt.subplot(3, 2, 5); plt.stem(y2_fft_ang); plt.title("Faza Widma FFT"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Faza [pi x rad]")
 plt.subplot(3, 2, 6); plt.stem(y2_fft_ang_moje); plt.title("Faza Widma - Funkcja Wlasna"); plt.ylabel("Faza [pi x rad]"); plt.xlabel("Numer pasma czestotliwosciowego")
 plt.tight_layout()
-plt.savefig("wykres5b_y2.png")
+plt.savefig("Zadanie5b_y2.png")
 
 
 
@@ -259,7 +259,7 @@ plt.subplot(3, 2, 4); plt.stem(y3_fft_abs_moje); plt.title("Modul Widma - Funkcj
 plt.subplot(3, 2, 5); plt.stem(y3_fft_ang); plt.title("Faza Widma FFT"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Faza [pi x rad]")
 plt.subplot(3, 2, 6); plt.stem(y3_fft_ang_moje); plt.title("Faza Widma - Funkcja Wlasna"); plt.ylabel("Faza [pi x rad]"); plt.xlabel("Numer pasma czestotliwosciowego")
 plt.tight_layout()
-plt.savefig("wykres5b_y3.png")
+plt.savefig("Zadanie5b_y3.png")
 
 
 
@@ -280,7 +280,7 @@ plt.subplot(3, 2, 4); plt.stem(y4_fft_abs_moje); plt.title("Modul Widma - Funkcj
 plt.subplot(3, 2, 5); plt.stem(y4_fft_ang); plt.title("Faza Widma FFT"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Faza [pi x rad]")
 plt.subplot(3, 2, 6); plt.stem(y4_fft_ang_moje); plt.title("Faza Widma - Funkcja Wlasna"); plt.ylabel("Faza [pi x rad]"); plt.xlabel("Numer pasma czestotliwosciowego")
 plt.tight_layout()
-plt.savefig("wykres5b_y4.png")
+plt.savefig("Zadanie5b_y4.png")
 
 
 
