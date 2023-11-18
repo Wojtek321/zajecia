@@ -9,7 +9,7 @@ bool binary_search(int a, int tab[], int l, int r);
 int main()
 {
     int n;
-    ifstream file(R"(In0209.txt)");
+    ifstream file(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad9\In0209.txt)");
     file>>n;
     int *A = new int[n];
     int *B = new int[n];
@@ -22,7 +22,7 @@ int main()
     file.close();
 
 
-    ofstream out(R"(Out0209.txt)");
+    ofstream out(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad9\Out0209.txt)");
     przeciecie(A, B, n, out);
     out.close();
 }

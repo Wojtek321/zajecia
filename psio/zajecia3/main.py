@@ -326,13 +326,309 @@ from scipy.linalg import dft
 def DFT(y):
     n = len(y)
     dft_matrix = dft(n=n)
-    return dft_matrix
+    return np.dot(dft_matrix, y)
 
 def IDFT(y):
-    pass
+    n = len(y)
+    dft_matrix = dft(n=n)
+    return np.dot(np.linalg.inv(dft_matrix), y)
+
+
+# N = 32
+# f = 1
+# n = np.arange(start=0, stop=N)
+# y = np.sin(2*np.pi*f*n/N)
+# fft = 2*np.fft.fft(y)/N
+# fft_abs = np.abs(fft)
+# fft_ang = np.angle(fft)/np.pi
+# fft_moje = 2*DFT(y)/N
+# fft_moje_abs = np.abs(fft_moje)
+# fft_moje_ang = np.angle(fft_moje)/np.pi
+# ifft_moje = N*IDFT(fft_moje)/2
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y)
+# plt.title("y")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(ifft_moje)
+# plt.title("y - własna funkcja IDFT")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(fft_abs)
+# plt.title("Modul Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(fft_moje_abs)
+# plt.title("Modul Widma - Funkcja Wlasna")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(fft_ang)
+# plt.title("Faza Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Faza [pi x rad]")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(fft_moje_ang)
+# plt.title("Faza Widma - Funkcja Wlasna")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("wykres5a.png")
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+# N = 32
+# n = np.arange(start=0, stop=N)
+# y1 = np.cos(2*np.pi*n/N + np.pi/4)
+# y1_fft = 2*np.fft.fft(y1)/N
+# y1_fft_abs = np.abs(y1_fft)
+# y1_fft_ang = np.angle(y1_fft)/np.pi
+# y1_fft_moje = 2*DFT(y1)/N
+# y1_fft_abs_moje = np.abs(y1_fft_moje)
+# y1_fft_ang_moje = np.angle(y1_fft_moje)/np.pi
+# y1_ifft_moje = N*IDFT(y1_fft_moje)/2
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y1)
+# plt.title("y1")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(y1_ifft_moje)
+# plt.title("y1 - własna funkcja IDFT")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(y1_fft_abs)
+# plt.title("Modul Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(y1_fft_abs_moje)
+# plt.title("Modul Widma - Funkcja Wlasna")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(y1_fft_ang)
+# plt.title("Faza Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Faza [pi x rad]")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(y1_fft_ang_moje)
+# plt.title("Faza Widma - Funkcja Wlasna")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("wykres5b_y1.png")
+
+
+
+# y2 = 0.5*np.cos(4*np.pi*n/N)
+# y2_fft = 2*np.fft.fft(y2)/N
+# y2_fft_abs = np.abs(y2_fft)
+# y2_fft_ang = np.angle(y2_fft)/np.pi
+# y2_fft_moje = 2*DFT(y2)/N
+# y2_fft_abs_moje = np.abs(y2_fft_moje)
+# y2_fft_ang_moje = np.angle(y2_fft_moje)/np.pi
+# y2_ifft_moje = N*IDFT(y2_fft_moje)/2
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y2)
+# plt.title("y2")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(y2_ifft_moje)
+# plt.title("y2 - własna funkcja IDFT")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(y2_fft_abs)
+# plt.title("Modul Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(y2_fft_abs_moje)
+# plt.title("Modul Widma - Funkcja Wlasna")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(y2_fft_ang)
+# plt.title("Faza Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Faza [pi x rad]")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(y2_fft_ang_moje)
+# plt.title("Faza Widma - Funkcja Wlasna")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("wykres5b_y2.png")
+
+
+
+# y3 = 0.25*np.cos(8*np.pi*n/N + np.pi/2)
+# y3_fft = 2*np.fft.fft(y3)/N
+# y3_fft_abs = np.abs(y3_fft)
+# y3_fft_ang = np.angle(y3_fft)/np.pi
+# y3_fft_moje = 2*DFT(y3)/N
+# y3_fft_abs_moje = np.abs(y3_fft_moje)
+# y3_fft_ang_moje = np.angle(y3_fft_moje)/np.pi
+# y3_ifft_moje = N*IDFT(y3_fft_moje)/2
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y3)
+# plt.title("y3")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(y3_ifft_moje)
+# plt.title("y3 - własna funkcja IDFT")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(y3_fft_abs)
+# plt.title("Modul Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(y3_fft_abs_moje)
+# plt.title("Modul Widma - Funkcja Wlasna")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(y3_fft_ang)
+# plt.title("Faza Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Faza [pi x rad]")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(y3_fft_ang_moje)
+# plt.title("Faza Widma - Funkcja Wlasna")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("wykres5b_y3.png")
+
+
+
+# y4 = y1 + y2 + y3
+# y4_fft = 2*np.fft.fft(y4)/N
+# y4_fft_abs = np.abs(y4_fft)
+# y4_fft_ang = np.angle(y4_fft)/np.pi
+# y4_fft_moje = 2*DFT(y4)/N
+# y4_fft_abs_moje = np.abs(y4_fft_moje)
+# y4_fft_ang_moje = np.angle(y4_fft_moje)/np.pi
+# y4_ifft_moje = N*IDFT(y4_fft_moje)/2
+#
+# plt.figure(figsize=(12, 14))
+# plt.subplot(3, 2, 1)
+# plt.stem(y4)
+# plt.title("y4")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 2)
+# plt.stem(y4_ifft_moje)
+# plt.title("y4 - własna funkcja IDFT")
+# plt.xlabel("Numer probki")
+# plt.ylabel("Amplituda")
+#
+# plt.subplot(3, 2, 3)
+# plt.stem(y4_fft_abs)
+# plt.title("Modul Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 4)
+# plt.stem(y4_fft_abs_moje)
+# plt.title("Modul Widma - Funkcja Wlasna")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Magnituda")
+#
+# plt.subplot(3, 2, 5)
+# plt.stem(y4_fft_ang)
+# plt.title("Faza Widma FFT")
+# plt.xlabel("Numer Pasma Czestotliwosciowego")
+# plt.ylabel("Faza [pi x rad]")
+#
+# plt.subplot(3, 2, 6)
+# plt.stem(y4_fft_ang_moje)
+# plt.title("Faza Widma - Funkcja Wlasna")
+# plt.ylabel("Faza [pi x rad]")
+# plt.xlabel("Numer pasma czestotliwosciowego")
+#
+# plt.tight_layout()
+# plt.savefig("wykres5b_y4.png")
+
+
+
+
+
+
+
+
+
+
+
+
+
+N = 64
+n = np.arange(0, N)
+y = np.sin(2*np.pi * 2.5 * n/N)
+
+
+fig, axs = plt.subplots(3, 3)
+fig.set_size_inches(18, 16)
+ax = axs[0,0]
+ax.stem(y)
+ax.set_title("y")
+ax.set_xlabel()
+ax.set_ylabel()
+
+
+fig.set_tight_layout(tight=True)
+plt.savefig("zadanie6.png")

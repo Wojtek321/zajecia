@@ -23,7 +23,7 @@ void DFS(int a, vector <vector<int>> &lista, bool *odwiedzony, vector <int> &kol
 int main()
 {
     int n;
-    ifstream file(R"(In0206.txt)");
+    ifstream file(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad6\In0206.txt)");
     string linia;
 
     getline(file, linia);
@@ -68,7 +68,7 @@ int main()
     }
 
 
-    ofstream out(R"(Out0206.txt)");
+    ofstream out(R"(C:\Users\Wojtek\Desktop\zajecia\asd\zajecia2\zad6\Out0206.txt)");
 
     if(spojny)
         out<<"Graf spójny";
