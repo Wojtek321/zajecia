@@ -56,10 +56,14 @@ y3_fft_ang = np.angle(y3_fft)/np.pi
 y4_fft_ang = np.angle(y4_fft)/np.pi
 
 plt.figure(figsize=(8,7))
-plt.subplot(2, 2, 1); plt.stem(y1_fft_abs); plt.title('y1[n] = cos(2πn/N+π/4)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda"); plt.axis((-0.2, 15.2, -1.1, 1.1))
-plt.subplot(2, 2, 2); plt.stem(y2_fft_abs); plt.title('y2[n] = 0.5cos(4πn/N)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda"); plt.axis((-0.2, 15.2, -1.1, 1.1))
-plt.subplot(2, 2, 3); plt.stem(y3_fft_abs); plt.title('y3[n] = 0.25cos(8πn/N+π/2)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda"); plt.axis((-0.2, 15.2, -1.1, 1.1))
-plt.subplot(2, 2, 4); plt.stem(y4_fft_abs); plt.title("y1+y2+y3"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda"); plt.axis((-0.2, 15.2, -1.1, 1.1))
+plt.subplot(2, 2, 1); plt.stem(y1_fft_abs); plt.title('y1[n] = cos(2πn/N+π/4)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda")
+plt.axis((-0.2, 15.2, -1.1, 1.1))
+plt.subplot(2, 2, 2); plt.stem(y2_fft_abs); plt.title('y2[n] = 0.5cos(4πn/N)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda")
+plt.axis((-0.2, 15.2, -1.1, 1.1))
+plt.subplot(2, 2, 3); plt.stem(y3_fft_abs); plt.title('y3[n] = 0.25cos(8πn/N+π/2)'); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda")
+plt.axis((-0.2, 15.2, -1.1, 1.1))
+plt.subplot(2, 2, 4); plt.stem(y4_fft_abs); plt.title("y1+y2+y3"); plt.xlabel("Numer Pasma Czestotliwosciowego"); plt.ylabel("Magnituda")
+plt.axis((-0.2, 15.2, -1.1, 1.1))
 plt.tight_layout()
 plt.savefig("Zadanie2_2")
 
