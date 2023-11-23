@@ -31,15 +31,15 @@ def moc_sygnalu(alpha, signal):
         power.append(alpha*power[i-1] + (1-alpha)*sample*sample)
     return power
 
+
+
 noise_power = moc_sygnalu(0.999, noise)
 sin_power = moc_sygnalu(0.999, sin)
 sin_zmienny_power = moc_sygnalu(0.999, sin_zmienny)
 samples_power = moc_sygnalu(0.999, samples)
 
-
 fig, axs = plt.subplots(4, 2)
 fig.set_size_inches(18, 16)
-
 ax = axs[0,0]; ax.plot(n, noise); ax.set_title("Szum gaussowski"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
 ax = axs[0,1]; ax.plot(n, noise_power); ax.set_title("Szum gaussowski - Obwiednia mocy, alpha=0.999"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Moc")
 ax = axs[1,0]; ax.plot(n, sin); ax.set_title("Sygnal sinusoidalny o stalej czestotliwosci"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
@@ -52,15 +52,14 @@ fig.set_tight_layout(tight=True)
 plt.savefig("Zadanie1_1.png")
 
 
+
 noise_power = moc_sygnalu(0.99, noise)
 sin_power = moc_sygnalu(0.99, sin)
 sin_zmienny_power = moc_sygnalu(0.99, sin_zmienny)
 samples_power = moc_sygnalu(0.99, samples)
 
-
 fig, axs = plt.subplots(4, 2)
 fig.set_size_inches(18, 16)
-
 ax = axs[0,0]; ax.plot(n, noise); ax.set_title("Szum gaussowski"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
 ax = axs[0,1]; ax.plot(n, noise_power); ax.set_title("Szum gaussowski - Obwiednia mocy, alpha=0.99"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Moc")
 ax = axs[1,0]; ax.plot(n, sin); ax.set_title("Sygnal sinusoidalny o stalej czestotliwosci"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
@@ -72,15 +71,15 @@ ax = axs[3,1]; ax.plot(n, samples_power); ax.set_title("Sygnal mowy - Obwiednia 
 fig.set_tight_layout(tight=True)
 plt.savefig("Zadanie1_2.png")
 
+
+
 noise_power = moc_sygnalu(0.001, noise)
 sin_power = moc_sygnalu(0.001, sin)
 sin_zmienny_power = moc_sygnalu(0.001, sin_zmienny)
 samples_power = moc_sygnalu(0.001, samples)
 
-
 fig, axs = plt.subplots(4, 2)
 fig.set_size_inches(18, 16)
-
 ax = axs[0,0]; ax.plot(n, noise); ax.set_title("Szum gaussowski"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
 ax = axs[0,1]; ax.plot(n, noise_power); ax.set_title("Szum gaussowski - Obwiednia mocy, alpha=0.001"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Moc")
 ax = axs[1,0]; ax.plot(n, sin); ax.set_title("Sygnal sinusoidalny o stalej czestotliwosci"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
@@ -89,6 +88,5 @@ ax = axs[2,0]; ax.plot(n, sin_zmienny); ax.set_title("Sygnal o zmiennej czestotl
 ax = axs[2,1]; ax.plot(n, sin_zmienny_power); ax.set_title("Sygnal o zmiennej czestotliwosci - Obwiednia mocy, alpha=0.001"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Moc")
 ax = axs[3,0]; ax.plot(n, samples); ax.set_title("Sygnal mowy"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Amplituda")
 ax = axs[3,1]; ax.plot(n, samples_power); ax.set_title("Sygnal mowy - Obwiednia mocy, alpha=0.001"); ax.set_xlabel("Czas [s]"); ax.set_ylabel("Moc")
-
 fig.set_tight_layout(tight=True)
 plt.savefig("Zadanie1_3.png")
