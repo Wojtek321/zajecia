@@ -168,7 +168,6 @@ sin_var_f, sin_var_pxx = periodogram(sin_var, fs)
 mowa_f, mowa_pxx = periodogram(mowa, fs_mowy)
 muzyka_f, muzyka_pxx = periodogram(muzyka, fs_muzyki)
 
-
 fig, axs = plt.subplots(8,2)
 fig.set_size_inches(20, 18)
 ax = axs[0,0]; ax.plot(n, sin); ax.set_xlim(0, 0.02); ax.set_title('Sygnal sinusoidalny o stalej czestotliwosci'); ax.set_ylabel("Amplituda")
@@ -224,7 +223,6 @@ sin_var_f, sin_var_t, sin_var_Sxx = spectrogram(sin_var, fs, window='hamming', n
 mowa_f, mowa_t, mowa_Sxx = spectrogram(mowa, fs_mowy, window='hamming', nperseg=1024)
 muzyka_f, muzyka_t, muzyka_Sxx = spectrogram(muzyka, fs_muzyki, window='hamming', nperseg=1024)
 
-
 fig, axs = plt.subplots(4, 2)
 fig.set_size_inches(13, 18)
 ax = axs[0,0]; mesh = ax.pcolormesh(sin_t, sin_f, 10*np.log10(sin_Sxx)); cb = fig.colorbar(mesh, ax=ax); cb.set_label("Moc/ [dB]")
@@ -271,7 +269,6 @@ noise_mel = melspectrogram(y=noise, sr=fs)
 sin_var_mel = melspectrogram(y=sin_var, sr=fs)
 mowa_mel = melspectrogram(y=mowa, sr=fs_mowy)
 muzyka_mel = melspectrogram(y=muzyka, sr=fs_muzyki)
-
 
 fig, axs = plt.subplots(4, 2)
 fig.set_size_inches(13, 18)
