@@ -119,11 +119,7 @@ plt.savefig("Zadanie1_3.png")
 
 
 
-f = 1000
-fs = 16000
-t = 2
-n = np.arange(0, t, 1/fs)
-frequency = np.linspace(1000, 2000, len(n))
+f = 1000; fs = 16000; t = 2; n = np.arange(0, t, 1/fs); frequency = np.linspace(1000, 2000, len(n))
 
 sin = np.sin(2*np.pi * f * n)
 sq = square(2*np.pi * f * n)
@@ -146,11 +142,9 @@ with wave.open("muzyka.wav", 'r') as file:
     liczba_kanalow = file.getnchannels()
     liczba_bitow_na_probke = file.getsampwidth()
     n_frames = file.getnframes()
-
     fs_muzyki = file.getframerate()
     t_muzyki = n_frames / fs_muzyki
     n_muzyki = np.arange(0, t_muzyki-(1/fs_muzyki), 1 / fs_muzyki)
-
     data = file.readframes(n_frames)
     muzyka = struct.unpack(f"{n_frames * liczba_kanalow}h", data)
     muzyka = np.array(muzyka).reshape((-1, liczba_kanalow))
