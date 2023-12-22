@@ -12,7 +12,7 @@ from pprint import pprint
 from threading import Thread
 import tkinter as tk
 import random
-import pyaudio
+# import pyaudio
 from PIL import Image, ImageTk
 
 

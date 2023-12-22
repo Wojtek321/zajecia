@@ -68,8 +68,8 @@ void kruskalMST(vector<vector<Edge>> &lista, int n, ofstream &outputFile) {
 
 int main() {
     int n;
-    ifstream file("In0303.txt");
-    ofstream outputFile("Out0303.txt");
+    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\In0303.txt");
+    ofstream outputFile("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\Out0303.txt");
 
     string linia;
 
