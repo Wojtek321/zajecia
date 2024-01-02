@@ -7,14 +7,17 @@ from scipy.io import wavfile
 import sounddevice as sd
 import time
 from filters import lowpass_filter, highpass_filter
+from ITD_ILD import ITD, ILD
 from gcc_phat import gcc_phat
 from scipy.signal import correlate
+from scipy.signal import fftconvolve
 
 
 
 # URL = "http://sofacoustics.org/data/database/mit/mit_kemar_normal_pinna.sofa"
+# URL = "https://sofacoustics.org/data/database/sadie/H3_48K_24bit_256tap_FIR_SOFA.sofa"
 # data = requests.get(URL).content
-# open("mit.sofa", "wb").write(data)
+# open("sadie.sofa", "wb").write(data)
 TIME = 4
 
 # lewe ucho index - 0
@@ -41,9 +44,7 @@ def measurement_number(az):
 
 
 
-
 idx = measurement_number(90)
-
 H_l = sofa_file["Data.IR"][idx,0,:]
 H_r = sofa_file["Data.IR"][idx,1,:]
 
@@ -57,35 +58,9 @@ Y_l = convolve(trumpet, H_l, mode="same")
 Y_r = convolve(trumpet, H_r, mode="same")
 
 
-def ITD(Y_l, Y_r, fs=44100):
-    Y_l = lowpass_filter(Y_l)
-    Y_r = lowpass_filter(Y_r)
-
-    i = np.argmax(Y_l)
-    j = np.argmax(Y_r)
-
-    return np.abs(i-j) / fs
-
-    # itd, _ = gcc_phat(Y_r, Y_l)
-    # return itd
-    # cc = correlate(Y_r, Y_l, mode='full')
-    # idx_lag = np.argmax(np.abs(cc))
-    # toa_diff = idx_lag - 512
-    #
-    #
-    # toa_diff = toa_diff / fs
-    # return toa_diff
 
 
-def ILD(Y_l, Y_r):
-    l = sum(Y_l)
-    r = sum(Y_r)
-
-    return 20*np.log10(r/l)
-
-
-
-
+print(ITD(H_l, H_r))
 print(ITD(Y_l, Y_r))
 # print(ILD(Y_l, Y_r))
 
