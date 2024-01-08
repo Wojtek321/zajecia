@@ -524,7 +524,7 @@ int main()
                 string pesel, numer;
                 cout<<"Numer pesel: ";
                 cin>>pesel;
-                cout<<"Numer telefonu";
+                cout<<"Numer telefonu: ";
                 cin>>numer;
 
                 insert(pesel, numer, pesele, numery);
@@ -533,7 +533,7 @@ int main()
             case 4:
             {
                 string pesel, numer;
-                cout<<"Numer telefonu";
+                cout<<"Numer telefonu: ";
                 cin>>numer;
                 cout<<"Numer pesel: ";
                 cin>>pesel;
@@ -544,10 +544,10 @@ int main()
             case 5:
             {
                 string numer;
-                cout<<"Numer telefonu";
+                cout<<"Numer telefonu: ";
                 cin>>numer;
 
-                if(szukaj(numer, numery))
+                if(!szukaj(numer, numery))
                 {
                     cout<<"Brak numeru pesel w drzewie."<<endl;
                 }
@@ -562,10 +562,10 @@ int main()
             case 6:
             {
                 string pesel;
-                cout<<"Numer pesel";
+                cout<<"Numer pesel: ";
                 cin>>pesel;
 
-                if(szukaj(pesel, pesele))
+                if(!szukaj(pesel, pesele))
                 {
                     cout<<"Brak numeru telefonu w drzewie."<<endl;
                 }
@@ -579,8 +579,41 @@ int main()
             }
             case 7:
             {
-//                KLP(root);
-//                break;
+                string pesel;
+                cout<<"Numer pesel: ";
+                cin>>pesel;
+
+                if(!szukaj(pesel, pesele))
+                {
+                    cout<<"Brak numeru pesel w drzewie."<<endl;
+                }
+                else
+                {
+                    Node *p = znajdz(pesel, pesele);
+                    delete_(p->wsk->key, numery);
+                    delete_(p->key, pesele);
+                }
+
+                break;
+            }
+            case 8:
+            {
+                string numer;
+                cout<<"Numer telefonu: ";
+                cin>>numer;
+
+                if(!szukaj(numer, numery))
+                {
+                    cout<<"Brak numeru telefonu w drzewie."<<endl;
+                }
+                else
+                {
+                    Node *p = znajdz(numer, numery);
+                    delete_(p->wsk->key, pesele);
+                    delete_(p->key, numery);
+                }
+
+                break;
             }
         }
     }
