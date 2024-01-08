@@ -456,9 +456,7 @@ int main()
     srand(time(NULL));
 
 
-    bool dziala = true;
-
-    while (dziala)
+    while (true)
     {
         cout<<endl<<endl;
         cout<<"1 - Plik -> Wczytaj"<<endl;
