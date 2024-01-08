@@ -42,9 +42,9 @@ def measurement_number(az):
     return row_indices[0]
 
 
+angle = 90
 
-
-idx = measurement_number(90)
+idx = measurement_number(angle)
 H_l = sofa_file["Data.IR"][idx,0,:]
 H_r = sofa_file["Data.IR"][idx,1,:]
 
