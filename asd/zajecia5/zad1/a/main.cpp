@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <conio.h>
+#include <random>
 
 using namespace std;
 
@@ -40,12 +41,12 @@ void BL1(Node *&p)
 
 bool balanceIL(Node *&p)
 {
-//    cout<<"IL"<<endl;
+    cout<<"IL"<<endl;
     switch (p->w)
     {
         case -1:
         {
-//            cout<<"-1"<<endl;
+            cout<<"-1"<<endl;
             if (p->right->w == -1)
             {
                 BL1(p);
@@ -61,16 +62,19 @@ bool balanceIL(Node *&p)
                     {
                         p->left->w = 0;
                         p->right->w = 0;
+                        cout<<"0"<<endl;
                     } break;
                     case 1:
                     {
                         p->left->w = 0;
                         p->right->w = -1;
+                        cout<<"1"<<endl;
                     } break;
                     case -1:
                     {
                         p->left->w = 1;
                         p->right->w = 0;
+                        cout<<"-1"<<endl;
                     } break;
                 }
             }
@@ -81,13 +85,13 @@ bool balanceIL(Node *&p)
         case 0:
         {
             p->w = -1;
-//            cout<<"0"<<endl;
+            cout<<"0"<<endl;
             break;
         }
         case 1:
         {
             p->w = 0;
-//            cout<<"1"<<endl;
+            cout<<"1"<<endl;
             return true;
         } break;
     }
@@ -96,12 +100,12 @@ bool balanceIL(Node *&p)
 
 bool balanceIR(Node *&p)
 {
-//    cout<<"IR"<<endl;
+    cout<<"IR"<<endl;
     switch (p->w)
     {
         case 1:
         {
-//            cout<<"1"<<endl;
+            cout<<"1"<<endl;
             if (p->left->w == 1)
             {
                 BR1(p);
@@ -115,16 +119,19 @@ bool balanceIR(Node *&p)
                 {
                     case 0:
                     {
+                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
+                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
+                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
@@ -133,18 +140,18 @@ bool balanceIR(Node *&p)
             p->w = 0;
             return true;
         }
-        break;
+            break;
 
         case 0:
         {
             p->w = 1;
-//            cout<<"0"<<endl;
+            cout<<"0"<<endl;
             break;
         }
         case -1:
         {
             p->w = 0;
-//            cout<<"-1"<<endl;
+            cout<<"-1"<<endl;
             return true;
         } break;
     }
@@ -170,22 +177,24 @@ bool insert(int a, Node *&p)
     return true;
 }
 
-bool szukaj(int a, Node *&p)
+bool szukaj(int a, Node *&p, int poziom)
 {
     if(!p)
     {
+        cout<<"Brak elementu w drzewie"<<endl;
         return false;
     }
     else if(a > p->key)
     {
-        return szukaj(a, p->right);
+        return szukaj(a, p->right, ++poziom);
     }
     else if(a < p->key)
     {
-        return szukaj(a, p->left);
+        return szukaj(a, p->left, ++poziom);
     }
     else
     {
+        cout<<"Waga: "<<p->w<<", poziom: "<<poziom<<endl;
         return true;
     }
 }
@@ -200,155 +209,35 @@ void KLP(Node *&p, ofstream &out)
     }
 }
 
-void wypisz(const Node* node, int odstep = 0, char kierunek = ' ')
+void KLP(Node *&p)
 {
-    if (node != nullptr) {
-
-        int odstep_pom = 3;
-
-        odstep += odstep_pom;
-
-        wypisz(node->right, odstep, 'P');
-
-        for (int i = odstep_pom; i < odstep; i++)
-            std::cout << " ";
-
-        if (kierunek == 'P')
-            cout << "+--- " << node->key <<" ("<<node->w<<")"<<" (P)" << std::endl;
-        else if (kierunek == 'L')
-            std::cout << "+--- " << node->key <<" ("<<node->w<<")"<< " (L)" << std::endl;
-        else
-            std::cout << node->key <<" ("<<node->w<<")"<< std::endl;
-
-        wypisz(node->left, odstep, 'L');
-
+    if(p != NULL)
+    {
+        cout<<p->key<<" ("<<p->w<<"), ";
+        KLP(p->left);
+        KLP(p->right);
     }
 }
 
-//bool balanceDL(Node *&p)
-//{
-//    cout<<"DL"<<endl;
-//    switch (p->w)
-//    {
-//        case 1:
-//        {
-//            cout<<"1"<<endl;
-//            if (p->left->w == 1)
-//            {
-//                BR1(p);
-//                p->right->w = 0;
-//            }
-//            else
-//            {
-//                BL1(p->left);
-//                BR1(p);
-//                switch (p->w)
-//                {
-//                    case 0:
-//                    {
-//                        p->left->w = 0;
-//                        p->right->w = 0;
-//                    } break;
-//                    case 1:
-//                    {
-//                        p->left->w = 0;
-//                        p->right->w = -1;
-//                    } break;
-//                    case -1:
-//                    {
-//                        p->left->w = 1;
-//                        p->right->w = 0;
-//                    } break;
-//                }
-//            }
-//            p->w = 0;
-//            return true;
-//        } break;
-//
-//        case 0:
-//        {
-//            cout<<"0"<<endl;
-//            p->w = -1;
-//            break;
-//        }
-//        case -1:
-//        {
-//            cout<<"-1"<<endl;
-//            p->w = 0;
-//            return true;
-//        } break;
-//    }
-//    return false;
-//}
-//
-//bool balanceDR(Node *&p)
-//{
-//    cout<<"DR"<<endl;
-//    switch (p->w)
-//    {
-//        case -1:
-//        {
-//            cout<<"-1"<<endl;
-//            if (p->right->w == -1)
-//            {
-//                BL1(p);
-//                p->left->w = 0;
-//            }
-//            else
-//            {
-//                BR1(p->right);
-//                BL1(p);
-//                switch (p->w)
-//                {
-//                    case 0:
-//                    {
-//                        p->left->w = 0;
-//                        p->right->w = 0;
-//                    } break;
-//                    case 1:
-//                    {
-//                        p->left->w = -1;
-//                        p->right->w = 0;
-//                    } break;
-//                    case -1:
-//                    {
-//                        p->left->w = 0;
-//                        p->right->w = 1;
-//                    } break;
-//                }
-//            }
-//            p->w = 0;
-//            return true;
-//        } break;
-//
-//        case 0:
-//        {
-//            cout<<"0"<<endl;
-//            p->w = 1;
-//            break;
-//        }
-//        case 1:
-//        {
-//            cout<<"1"<<endl;
-//            p->w = 0;
-//            return true;
-//        } break;
-//    }
-//    return false;
-//}
-
 bool balanceDL(Node *&p)
 {
-    cout<<"DL"<<endl;
+//    cout<<"DL"<<endl;
     switch (p->w)
     {
         case -1:
         {
-            cout<<"-1"<<endl;
-            if (p->right->w == -1)
+//            cout<<"-1"<<endl;
+            if(p->right->w == -1)
             {
                 BL1(p);
                 p->left->w = 0;
+            }
+            else if (p->right->w == 0)
+            {
+//                cout<<"AA"<<endl;
+                BL1(p);
+                p->w = 1;
+                return true;
             }
             else
             {
@@ -358,36 +247,39 @@ bool balanceDL(Node *&p)
                 {
                     case 0:
                     {
+//                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
+//                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
+//                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
                 }
             }
             p->w = 0;
-            return true;
         } break;
 
+            // case 0 jest dobry
         case 0:
         {
+//            cout<<"0"<<endl;
             p->w = -1;
-            cout<<"0"<<endl;
-            break;
-        }
+            return true;
+        } break;
+            // case 1 jest dobry
         case 1:
         {
+//            cout<<"1"<<endl;
             p->w = 0;
-            cout<<"1"<<endl;
-            return true;
         } break;
     }
     return false;
@@ -395,16 +287,23 @@ bool balanceDL(Node *&p)
 
 bool balanceDR(Node *&p)
 {
-    cout<<"DR"<<endl;
+//    cout<<"DR"<<endl;
     switch (p->w)
     {
         case 1:
         {
-            cout<<"1"<<endl;
-            if (p->left->w == 1)
+//            cout<<"1"<<endl;
+            if(p->left->w == 1)
             {
                 BR1(p);
-                p ->right->w = 0;
+                p->right->w = 0;
+            }
+            else if (p->left->w == 0)
+            {
+//                cout<<"AA"<<endl;;
+                BR1(p);
+                p->w = -1;
+                return true;
             }
             else
             {
@@ -414,37 +313,41 @@ bool balanceDR(Node *&p)
                 {
                     case 0:
                     {
+//                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
+//                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
+//                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
                 }
             }
             p->w = 0;
-            return true;
-        }
-            break;
+            return false;
+        } break;
 
+            // case 0 jest dobry
         case 0:
         {
+//            cout<<"0"<<endl;
             p->w = 1;
-            cout<<"0"<<endl;
-            break;
-        }
+            return true;
+        } break;
+
+            // case -1 jest dobry
         case -1:
         {
+//            cout<<"-1"<<endl;
             p->w = 0;
-            cout<<"-1"<<endl;
-            return true;
         } break;
     }
     return false;
@@ -491,8 +394,7 @@ bool delete_(int a, Node*& p)
                 delete q;
                 return false;
             }
-            else
-            if (!q->right)
+            else if (!q->right)
             {
                 p = p->left;
                 delete q;
@@ -513,29 +415,22 @@ int main()
 {
     Node* root = NULL;
 
-    string linia;
-    int a;
+
     bool dziala = true;
 
-    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\InTest1.txt");
-    getline(file, linia);
-    file.close();
-    istringstream line(linia);
 
-
-    while (line >> a)
-    {
-//        cout<<"nowa liczba - "<<a<<endl;
-        insert(a, root);
-    }
+    srand(time(NULL));
 
     while (dziala)
     {
         cout<<endl<<endl;
-        cout<<"1 - Insert"<<endl;
-        cout<<"2 - Usun"<<endl;
-        cout<<"3 - Szukaj"<<endl;
-        cout<<"4 - Wypisz"<<endl;
+        cout<<"1 - Wczytaj elementy z pliku InTest1.txt"<<endl;
+        cout<<"2 - Wczytaj wylosowane elementy"<<endl;
+        cout<<"3 - Zapisz drzewo do pliku OutTest3.txt w kolejnosci KLP"<<endl;
+        cout<<"4 - Podaj wage i poziom wybranego elementu"<<endl;
+        cout<<"5 - Dodaj element do drzewa"<<endl;
+        cout<<"6 - Usun element z drzewa"<<endl;
+        cout<<"7 - Wypisz drzewo na ekran"<<endl;
         cout<<"Numer: ";
 
         int wybor;
@@ -545,37 +440,88 @@ int main()
         {
             case 1:
             {
-                cout<<"Podaj liczbe: ";
-                cin>>a;
-                insert(a, root);
+                string linia;
+                int a;
+
+                ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\InTest1.txt");
+                getline(file, linia);
+                file.close();
+                istringstream line(linia);
+
+
+                while (line >> a)
+                {
+                    insert(a, root);
+                }
+
                 break;
             }
             case 2:
             {
-                cout<<"Podaj liczbe do usuniecia: ";
+                int a, b, n;
+                cout<<"Podaj dolne ograniczenie zakresu: ";
                 cin>>a;
-                delete_(a, root);
+                cout<<"Podaj gorne ograniczenie zakresu: ";
+                cin>>b;
+                cout<<"Podaj liczbe losowanych elementow: ";
+                cin>>n;
+
+                int range = b - a + 1;
+
+
+                ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest2.txt");
+                for(int i=0; i<n; i++)
+                {
+                    int x = rand() % range + a;
+                    insert(x, root);
+                    out<<x<<" ";
+                }
+                out.close();
+
                 break;
             }
             case 3:
             {
-                cout<<"Szukana liczba: ";
-                cin>>a;
-                if(szukaj(a, root))
-                {
-                    cout<<"Liczba jest w drzewie AVL";
-                }
-                else
-                {
-                    cout<<"Brak danej liczby w drzewie";
-                }
+                ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest3.txt");
+                KLP(root, out);
+                out.close();
+
                 break;
             }
             case 4:
             {
-                ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\OutTest3.txt");
-                KLP(root, out);
-                out.close();
+                int a;
+                cout<<"Podaj numer elementu: ";
+                cin>>a;
+
+                szukaj(a, root, 0);
+
+                break;
+            }
+            case 5:
+            {
+                int a;
+                cout<<"Podaj liczbe: ";
+                cin>>a;
+
+                insert(a, root);
+
+                break;
+            }
+            case 6:
+            {
+                int a;
+                cout<<"Podaj liczbe: ";
+                cin>>a;
+
+                delete_(a, root);
+
+                break;
+            }
+            case 7:
+            {
+                KLP(root);
+                break;
             }
         }
     }
