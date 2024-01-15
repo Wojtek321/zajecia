@@ -107,7 +107,6 @@ import sounddevice as sd
 # cutoff_freq = 3000
 # order = 10
 # nyquist_rate = 2 * cutoff_freq
-#
 # norm = cutoff_freq / nyquist_rate
 #
 #
@@ -115,13 +114,11 @@ import sounddevice as sd
 # w_fir, h_fir = freqz(taps)
 # plt.plot(0.5 * nyquist_rate * w_fir / np.pi, 20*np.log10(np.abs(h_fir)), label=f'FIR Rząd {order}')
 #
-#
 # coefficients = iirfilter(order, norm, btype='lowpass')
 # b = coefficients[0]
 # a = coefficients[1]
 # w_iir, h_iir = freqz(b, a)
-# plt.plot(0.5 * nyquist_rate * w_iir / np.pi, 20*np.log10(np.abs(h_iir)), label=f'FIR Rząd {order}')
-#
+# plt.plot(0.5 * nyquist_rate * w_iir / np.pi, 20*np.log10(np.abs(h_iir)), label=f'IIR Rząd {order}')
 # plt.title("Amplitudowa odpowiedź częstotliwościowa filtrów FIR oraz IIR")
 # plt.xlabel("Częstotliwość [Hz]")
 # plt.ylabel("Amplituda")
@@ -141,7 +138,6 @@ import sounddevice as sd
 # plt.title("Porównanie fazowych odpowiedzi częstotliwościowych filtrów FIR i IIR")
 # plt.xlabel("Częstotliwość [Hz]")
 # plt.ylabel("Faza [rad]")
-# # plt.ylim(-20, 0)
 # plt.legend()
 # plt.grid()
 # plt.tight_layout()
@@ -159,6 +155,7 @@ import sounddevice as sd
 # plt.xlabel("Częstotliwość")
 # plt.plot(w_fir, gd_fir, label=f'FIR - Rząd {order}')
 # plt.plot(w_iir, gd_iir, label=f'IIR - Rząd {order}')
+# plt.xlim((0,3))
 # plt.legend()
 # plt.tight_layout()
 # plt.savefig("Zadanie2_c")
@@ -210,29 +207,29 @@ ax = axs[1]; ax.plot(n, lfilter(b, a, signal)[:t*FS]); ax.set_title("Sygnał prz
 fig.set_tight_layout(tight=True)
 plt.savefig("Zadanie3_b.png")
 
-# sd.play(signal, FS)
-# sd.wait()
-# sd.play(lfilter(b, a, signal), FS)
-# sd.wait()
+sd.play(signal, FS)
+sd.wait()
+sd.play(lfilter(b, a, signal), FS)
+sd.wait()
 
 
-fs, y = periodogram(signal, FS, scaling='spectrum')
-fs, y_filtered = periodogram(lfilter(b, a, signal), FS, scaling='spectrum')
-
-fig, axs = plt.subplots(1, 2)
-fig.set_size_inches(14, 6)
-ax = axs[0]; ax.plot(fs, 20*np.log10(np.abs(y))); ax.set_title("Sygnał wejściowy - periodogram"); ax.set_ylabel("Moc [dB]"); ax.set_xlabel("Czestotliwość [Hz]")
-ax = axs[1]; ax.plot(fs, 20*np.log10(np.abs(y_filtered))); ax.set_title("Sygnał przefiltrowany - periodogram"); ax.set_ylabel("Moc [dB]"); ax.set_xlabel("Czestotliwość [Hz]")
-fig.set_tight_layout(tight=True)
-plt.savefig("Zadanie3_c.png")
-
-
-fs, t, sxx = spectrogram(signal, FS, mode='magnitude')
-fs_filtered, t_filtered, sxx_filtered = spectrogram(lfilter(b, a, signal), FS, mode='magnitude')
-
-fig, axs = plt.subplots(1, 2)
-fig.set_size_inches(14, 6)
-ax = axs[0]; mesh = ax.pcolormesh(t, fs, sxx); cb = fig.colorbar(mesh, ax=ax); cb.set_label("Moc [dB]"); ax.set_title("Sygnał wejściowy - spektogram"); ax.set_ylabel("Czestotliwość [Hz]"); ax.set_xlabel("Czas [s]")
-ax = axs[1]; mesh = ax.pcolormesh(t_filtered, fs_filtered, sxx_filtered); cb = fig.colorbar(mesh, ax=ax); cb.set_label("Moc [dB]"); ax.set_title("Sygnał przefiltrowany - spektogram"); ax.set_ylabel("Czestotliwość [Hz]"); ax.set_xlabel("Czas [s]")
-fig.set_tight_layout(tight=True)
-plt.savefig("Zadanie3_d.png")
+# fs, y = periodogram(signal, FS, scaling='spectrum')
+# fs, y_filtered = periodogram(lfilter(b, a, signal), FS, scaling='spectrum')
+#
+# fig, axs = plt.subplots(1, 2)
+# fig.set_size_inches(14, 6)
+# ax = axs[0]; ax.plot(fs, 20*np.log10(np.abs(y))); ax.set_title("Sygnał wejściowy - periodogram"); ax.set_ylabel("Moc [dB]"); ax.set_xlabel("Czestotliwość [Hz]")
+# ax = axs[1]; ax.plot(fs, 20*np.log10(np.abs(y_filtered))); ax.set_title("Sygnał przefiltrowany - periodogram"); ax.set_ylabel("Moc [dB]"); ax.set_xlabel("Czestotliwość [Hz]")
+# fig.set_tight_layout(tight=True)
+# plt.savefig("Zadanie3_c.png")
+#
+#
+# fs, t, sxx = spectrogram(signal, FS, mode='magnitude')
+# fs_filtered, t_filtered, sxx_filtered = spectrogram(lfilter(b, a, signal), FS, mode='magnitude')
+#
+# fig, axs = plt.subplots(1, 2)
+# fig.set_size_inches(14, 6)
+# ax = axs[0]; mesh = ax.pcolormesh(t, fs, sxx); cb = fig.colorbar(mesh, ax=ax); cb.set_label("Moc [dB]"); ax.set_title("Sygnał wejściowy - spektogram"); ax.set_ylabel("Czestotliwość [Hz]"); ax.set_xlabel("Czas [s]")
+# ax = axs[1]; mesh = ax.pcolormesh(t_filtered, fs_filtered, sxx_filtered); cb = fig.colorbar(mesh, ax=ax); cb.set_label("Moc [dB]"); ax.set_title("Sygnał przefiltrowany - spektogram"); ax.set_ylabel("Czestotliwość [Hz]"); ax.set_xlabel("Czas [s]")
+# fig.set_tight_layout(tight=True)
+# plt.savefig("Zadanie3_d.png")
