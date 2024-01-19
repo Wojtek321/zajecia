@@ -42,12 +42,10 @@ void BL1(Node *&p)
 
 bool balanceIL(Node *&p)
 {
-    cout<<"IL"<<endl;
     switch (p->w)
     {
         case -1:
         {
-            cout<<"-1"<<endl;
             if (p->right->w == -1)
             {
                 BL1(p);
@@ -63,19 +61,16 @@ bool balanceIL(Node *&p)
                     {
                         p->left->w = 0;
                         p->right->w = 0;
-                        cout<<"0"<<endl;
                     } break;
                     case 1:
                     {
                         p->left->w = 0;
                         p->right->w = -1;
-                        cout<<"1"<<endl;
                     } break;
                     case -1:
                     {
                         p->left->w = 1;
                         p->right->w = 0;
-                        cout<<"-1"<<endl;
                     } break;
                 }
             }
@@ -86,13 +81,11 @@ bool balanceIL(Node *&p)
         case 0:
         {
             p->w = -1;
-            cout<<"0"<<endl;
             break;
         }
         case 1:
         {
             p->w = 0;
-            cout<<"1"<<endl;
             return true;
         } break;
     }
@@ -101,12 +94,10 @@ bool balanceIL(Node *&p)
 
 bool balanceIR(Node *&p)
 {
-    cout<<"IR"<<endl;
     switch (p->w)
     {
         case 1:
         {
-            cout<<"1"<<endl;
             if (p->left->w == 1)
             {
                 BR1(p);
@@ -120,19 +111,16 @@ bool balanceIR(Node *&p)
                 {
                     case 0:
                     {
-                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
-                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
-                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
@@ -146,13 +134,11 @@ bool balanceIR(Node *&p)
         case 0:
         {
             p->w = 1;
-            cout<<"0"<<endl;
             break;
         }
         case -1:
         {
             p->w = 0;
-            cout<<"-1"<<endl;
             return true;
         } break;
     }
@@ -236,12 +222,10 @@ void KLP(Node *&p)
 
 bool balanceDL(Node *&p)
 {
-//    cout<<"DL"<<endl;
     switch (p->w)
     {
         case -1:
         {
-//            cout<<"-1"<<endl;
             if(p->right->w == -1)
             {
                 BL1(p);
@@ -249,7 +233,6 @@ bool balanceDL(Node *&p)
             }
             else if (p->right->w == 0)
             {
-//                cout<<"AA"<<endl;
                 BL1(p);
                 p->w = 1;
                 return true;
@@ -262,19 +245,16 @@ bool balanceDL(Node *&p)
                 {
                     case 0:
                     {
-//                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
-//                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
-//                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
@@ -283,17 +263,13 @@ bool balanceDL(Node *&p)
             p->w = 0;
         } break;
 
-            // case 0 jest dobry
         case 0:
         {
-//            cout<<"0"<<endl;
             p->w = -1;
             return true;
         } break;
-            // case 1 jest dobry
         case 1:
         {
-//            cout<<"1"<<endl;
             p->w = 0;
         } break;
     }
@@ -302,12 +278,10 @@ bool balanceDL(Node *&p)
 
 bool balanceDR(Node *&p)
 {
-//    cout<<"DR"<<endl;
     switch (p->w)
     {
         case 1:
         {
-//            cout<<"1"<<endl;
             if(p->left->w == 1)
             {
                 BR1(p);
@@ -315,7 +289,6 @@ bool balanceDR(Node *&p)
             }
             else if (p->left->w == 0)
             {
-//                cout<<"AA"<<endl;;
                 BR1(p);
                 p->w = -1;
                 return true;
@@ -328,19 +301,16 @@ bool balanceDR(Node *&p)
                 {
                     case 0:
                     {
-//                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
-//                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
-//                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
@@ -350,18 +320,14 @@ bool balanceDR(Node *&p)
             return false;
         } break;
 
-            // case 0 jest dobry
         case 0:
         {
-//            cout<<"0"<<endl;
             p->w = 1;
             return true;
         } break;
 
-            // case -1 jest dobry
         case -1:
         {
-//            cout<<"-1"<<endl;
             p->w = 0;
         } break;
     }
