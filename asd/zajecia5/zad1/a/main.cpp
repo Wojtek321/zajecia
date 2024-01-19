@@ -41,12 +41,12 @@ void BL1(Node *&p)
 
 bool balanceIL(Node *&p)
 {
-    cout<<"IL"<<endl;
+//    cout<<"IL"<<endl;
     switch (p->w)
     {
         case -1:
         {
-            cout<<"-1"<<endl;
+//            cout<<"-1"<<endl;
             if (p->right->w == -1)
             {
                 BL1(p);
@@ -62,19 +62,19 @@ bool balanceIL(Node *&p)
                     {
                         p->left->w = 0;
                         p->right->w = 0;
-                        cout<<"0"<<endl;
+//                        cout<<"0"<<endl;
                     } break;
                     case 1:
                     {
                         p->left->w = 0;
                         p->right->w = -1;
-                        cout<<"1"<<endl;
+//                        cout<<"1"<<endl;
                     } break;
                     case -1:
                     {
                         p->left->w = 1;
                         p->right->w = 0;
-                        cout<<"-1"<<endl;
+//                        cout<<"-1"<<endl;
                     } break;
                 }
             }
@@ -85,13 +85,13 @@ bool balanceIL(Node *&p)
         case 0:
         {
             p->w = -1;
-            cout<<"0"<<endl;
+//            cout<<"0"<<endl;
             break;
         }
         case 1:
         {
             p->w = 0;
-            cout<<"1"<<endl;
+//            cout<<"1"<<endl;
             return true;
         } break;
     }
@@ -100,12 +100,12 @@ bool balanceIL(Node *&p)
 
 bool balanceIR(Node *&p)
 {
-    cout<<"IR"<<endl;
+//    cout<<"IR"<<endl;
     switch (p->w)
     {
         case 1:
         {
-            cout<<"1"<<endl;
+//            cout<<"1"<<endl;
             if (p->left->w == 1)
             {
                 BR1(p);
@@ -119,19 +119,19 @@ bool balanceIR(Node *&p)
                 {
                     case 0:
                     {
-                        cout<<"0"<<endl;
+//                        cout<<"0"<<endl;
                         p->left->w = 0;
                         p->right->w = 0;
                     } break;
                     case 1:
                     {
-                        cout<<"1"<<endl;
+//                        cout<<"1"<<endl;
                         p->left->w = 0;
                         p->right->w = -1;
                     } break;
                     case -1:
                     {
-                        cout<<"-1"<<endl;
+//                        cout<<"-1"<<endl;
                         p->left->w = 1;
                         p->right->w = 0;
                     } break;
@@ -145,13 +145,13 @@ bool balanceIR(Node *&p)
         case 0:
         {
             p->w = 1;
-            cout<<"0"<<endl;
+//            cout<<"0"<<endl;
             break;
         }
         case -1:
         {
             p->w = 0;
-            cout<<"-1"<<endl;
+//            cout<<"-1"<<endl;
             return true;
         } break;
     }
