@@ -13,7 +13,7 @@ struct el
 
 int MAXINT = 2147483647/2;
 
-ofstream output("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\Out0402.txt");
+ofstream output("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\Out0402.txt");
 
 
 void Johnson(el **list, int n);
@@ -228,7 +228,7 @@ int* Ford_Bellman(el **list, int n, int s)
 
 int main()
 {
-    ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\In0402.txt");
+    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\In0402.txt");
 
     string linia;
     int n;
