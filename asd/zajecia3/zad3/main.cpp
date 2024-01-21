@@ -6,70 +6,77 @@
 
 using namespace std;
 
-struct Edge {
+struct Edge{
     int weight;
     int beg;
     int end;
 };
 
-bool compareEdges(const Edge &a, const Edge &b) {
+bool porownaj_krawedzie(const Edge &a, const Edge &b)
+{
     return a.weight < b.weight;
 }
 
-int findParent(vector<int> &parent, int vertex) {
+int findParent(vector<int> &parent, int vertex)
+{
     if (parent[vertex] == -1)
         return vertex;
     return findParent(parent, parent[vertex]);
 }
 
-void unionSets(vector<int> &parent, int x, int y) {
+void unionSets(vector<int> &parent, int x, int y)
+{
     int xSet = findParent(parent, x);
     int ySet = findParent(parent, y);
     parent[xSet] = ySet;
 }
 
-void kruskalMST(vector<vector<Edge>> &lista, int n, ofstream &outputFile) {
-    vector<Edge> edges;
-    for (int i = 0; i < n; ++i) {
-        for (const Edge &edge : lista[i]) {
-            edges.push_back(edge);
+void kruskal(vector<vector<Edge>> &lista, int n, ofstream &output)
+{
+    vector<Edge> krawedzie;
+    for (int i = 0; i < n; i++)
+    {
+        for (const Edge &edge : lista[i])
+        {
+            krawedzie.push_back(edge);
         }
     }
 
-    sort(edges.begin(), edges.end(), compareEdges);
+    sort(krawedzie.begin(), krawedzie.end(), porownaj_krawedzie);
 
     vector<int> parent(n, -1);
-    int edgeCount = 0;
-    vector<Edge> minimumSpanningTree;
-    int totalWeight = 0;
 
-    for (const Edge &edge : edges) {
-        if (edgeCount == n - 1)
+    int liczba_wierzcolkow = 0;
+    vector<Edge> MDR;
+    int waga = 0;
+
+    for (const Edge &edge : krawedzie) {
+        if (liczba_wierzcolkow == n - 1)
             break;
 
         int begSet = findParent(parent, edge.beg - 1);
         int endSet = findParent(parent, edge.end - 1);
 
         if (begSet != endSet) {
-            minimumSpanningTree.push_back(edge);
-            totalWeight += edge.weight;
+            MDR.push_back(edge);
+            waga += edge.weight;
             unionSets(parent, begSet, endSet);
-            edgeCount++;
+            liczba_wierzcolkow++;
         }
     }
 
 
-    for (const Edge &edge : minimumSpanningTree)
+    for (const Edge &edge : MDR)
     {
-        outputFile<<edge.end<< " "<<edge.beg<<" ["<<edge.weight<<"], ";
+        output<<edge.end<< " "<<edge.beg<<" ["<<edge.weight<<"], ";
     }
-    outputFile << endl << totalWeight << endl;
+    output << endl << waga << endl;
 }
 
 int main() {
     int n;
-    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\In0303.txt");
-    ofstream outputFile("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\Out0303.txt");
+    ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\In0303.txt");
+    ofstream output("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia3\\zad3\\Out0303.txt");
 
     string linia;
 
@@ -95,9 +102,9 @@ int main() {
     }
     file.close();
 
-    kruskalMST(lista, n, outputFile);
+    kruskal(lista, n, output);
 
-    outputFile.close();
+    output.close();
 
     return 0;
 }

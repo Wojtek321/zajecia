@@ -13,12 +13,12 @@ struct el
 
 int MAXINT = 2147483647/2;
 
-ofstream output("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\Out0402.txt");
+ofstream output("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\Out0402.txt");
 
 
 void Johnson(el **list, int n);
 int* Ford_Bellman(el **list, int n, int s);
-int* Dijkstry(el **list, int n, int u);
+int* Dijkstra(el **list, int n, int u);
 
 
 void Johnson(el **list, int n)
@@ -107,8 +107,7 @@ void Johnson(el **list, int n)
 
     for(int i=0; i<n; i++)
     {
-        int *delta = Dijkstry(list3, n, i);
-        int *d = Ford_Bellman(list, n, i);
+        int *delta = Dijkstra(list3, n, i);
 
 
         output<<"Delta^["<<i+1<<"][";
@@ -116,6 +115,7 @@ void Johnson(el **list, int n)
             output<<"-";
         else
             output<<delta[0];
+
         for(int j=1; j<n-1; j++)
         {
             if(delta[j]>MAXINT-10000 || delta[j]<-MAXINT+10000)
@@ -123,6 +123,7 @@ void Johnson(el **list, int n)
             else
                 output<<" "<<delta[j];
         }
+
         if(delta[n-1]>MAXINT-10000 || delta[n-1]<-MAXINT+10000)
             output<<" -";
         else
@@ -130,28 +131,32 @@ void Johnson(el **list, int n)
 
 
 
+
+
         output<<"], D["<<i+1<<"][";
-        if(d[0]>MAXINT-10000 || d[0]<-MAXINT+10000)
+        if(delta[0]>MAXINT-10000 || delta[0]<-MAXINT+10000)
             output<<"-";
         else
-            output<<d[0];
+            output<<delta[0] + h[1] - h[i+1];
+
         for(int j=1; j<n-1; j++)
         {
-            if(d[j]>MAXINT-10000 || d[j]<-MAXINT+10000)
+            if(delta[j]>MAXINT-10000 || delta[j]<-MAXINT+10000)
                 output<<" -";
             else
-                output<<" "<<d[j];
+                output<<" "<<delta[j] + h[j+1] - h[i+1];;
         }
-        if(d[n-1]>MAXINT-10000 || d[n-1]<-MAXINT+10000)
+
+        if(delta[n-1]>MAXINT-10000 || delta[n-1]<-MAXINT+10000)
             output<<" -]";
         else
-            output<<" "<<d[n-1]<<"]";
+            output<<" "<<delta[n-1] + h[n] - h[i+1]<<"]";
 
         output<<endl;
     }
 }
 
-int* Dijkstry(el **list, int n, int v)
+int* Dijkstra(el **list, int n, int v)
 {
     int *d = new int[n];
     int *p = new int[n];
@@ -228,7 +233,7 @@ int* Ford_Bellman(el **list, int n, int s)
 
 int main()
 {
-    ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\In0402.txt");
+    ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia4\\zad2\\In0402.txt");
 
     string linia;
     int n;
