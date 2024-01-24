@@ -152,8 +152,10 @@ void lcd_char(unsigned char row, unsigned char column, char out_char)
 void lcd_print(unsigned char row, unsigned char column, char *out_char)
 {
 	lcd_gotoxy(row, column);
+
 	lcd_out_cp(out_char);
-    HAL_Delay(5);
+	HAL_Delay(5);
+
 }
 void lcd_clear(void) {
 

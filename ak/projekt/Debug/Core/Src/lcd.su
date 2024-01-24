@@ -7,6 +7,6 @@
 ../Core/Src/lcd.c:132:6:lcd_gotoxy	16	static
 ../Core/Src/lcd.c:146:6:lcd_char	16	static
 ../Core/Src/lcd.c:152:6:lcd_print	16	static
-../Core/Src/lcd.c:158:6:lcd_clear	8	static
-../Core/Src/lcd.c:164:6:lcd_line1	8	static
-../Core/Src/lcd.c:168:6:lcd_line2	8	static
+../Core/Src/lcd.c:160:6:lcd_clear	8	static
+../Core/Src/lcd.c:166:6:lcd_line1	8	static
+../Core/Src/lcd.c:170:6:lcd_line2	8	static

@@ -24,6 +24,7 @@
 
 #include "lcd.h"
 #include "stdlib.h"
+#include "stdbool.h"
 #include <time.h>
 
 /* USER CODE END Includes */
@@ -61,6 +62,449 @@ static void MX_ADC1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// ustawienie maksymalnego zakresu losowanej liczby
+int MAX_DOLNA_GRANICA = -1000;
+int MAX_GORNA_GRANICA = 1000;
+
+// tablica z iloscia gier
+int tablica[] = {0, 0, 0};
+
+char *przycisk();
+int ustaw_dolna_granice();
+int ustaw_gorna_granice();
+void zgaduj(int dolny_zakres, int gorny_zakres, int wylosowana_liczba, int id_gracza);
+int losuj_liczbe(int dolna_granica, int gorna_granica);
+int wybierz_id();
+int liczba_cyfr(int liczba);
+void dodajZnak(char tablica[], char znak);
+void wypisz_tabele();
+
+
+
+
+void wypisz_tabele()
+{
+	char pierwsza[20] = "id: ";
+
+	dodajZnak(pierwsza, '1');
+	int l_cyfr = liczba_cyfr(tablica[0]);
+	for(int i=0; i<l_cyfr; i++)
+	{
+		dodajZnak(pierwsza, ' ');
+	}
+
+	dodajZnak(pierwsza, '|');
+	dodajZnak(pierwsza, ' ');
+	dodajZnak(pierwsza, '2');
+	l_cyfr = liczba_cyfr(tablica[1]);
+	for(int i=0; i<l_cyfr; i++)
+	{
+		dodajZnak(pierwsza, ' ');
+	}
+
+	dodajZnak(pierwsza, '|');
+	dodajZnak(pierwsza, ' ');
+	dodajZnak(pierwsza, '3');
+
+
+	char buff[20];
+
+	lcd_clear();
+	lcd_print(1, 1, pierwsza);
+	sprintf(buff, "    %d | %d | %d", tablica[0], tablica[1], tablica[2]);
+	lcd_print(2, 1, buff);
+
+	while(1)
+	{
+		if(strcmp(przycisk(), "SELECT")==0)
+		{
+			break;
+		}
+		HAL_Delay(300);
+	}
+}
+
+// dodanie znaku do tablicy znakow
+void dodajZnak(char tablica[], char znak)
+{
+    int i = 0;
+
+    while (tablica[i] != '\0')
+    {
+        i++;
+    }
+
+    tablica[i] = znak;
+    tablica[i + 1] = '\0';
+}
+
+// funkcja zwraca ilosc cyfr w liczbie
+int liczba_cyfr(int liczba)
+{
+	int liczba_cyfr = 0;
+
+	if(liczba<10)
+	{
+		return 1;
+	}
+
+	while (liczba != 0)
+	{
+		liczba /= 10;
+	    liczba_cyfr++;
+	}
+
+	return liczba_cyfr;
+}
+
+int wybierz_id()
+{
+	int id=1;
+	char buff[10];
+
+	lcd_clear();
+	lcd_print(1, 1, "Wybierz ID: 1-3");
+	lcd_print(2, 1, "ID = 1");
+
+	while(1)
+	{
+		if(strcmp(przycisk(), "RIGHT")==0)
+		{
+			id++;
+			if(id > 3)
+			{
+				id = 3;
+			}
+			sprintf(buff, "ID = %d", id);
+			lcd_clear();
+			lcd_print(1, 1, "Wybierz ID: 1-3");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "LEFT")==0)
+		{
+			id--;
+			if(id < 1)
+			{
+				id = 1;
+			}
+			sprintf(buff, "ID = %d", id);
+			lcd_clear();
+			lcd_print(1, 1, "Wybierz ID: 1-3");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "SELECT")==0)
+		{
+			break;
+		}
+		HAL_Delay(300);
+	}
+
+	return id;
+}
+
+// funckaj odpowiadajaca za rozgrywke - wprowadzanie liczby przez uzytkownika,
+// wyswietlanie podpowiedni na ekranie oraz informacji o wygranej
+void zgaduj(int dolny_zakres, int gorny_zakres, int wylosowana_liczba, int id_gracza)
+{
+	int liczba_prob = 0;
+	int typowana_liczba = 0;
+
+	char buff[20];
+	sprintf(buff, "%d", typowana_liczba);
+
+	lcd_clear();
+	lcd_print(1, 1, "Twoja liczba:");
+	lcd_print(2, 1, buff);
+
+
+	while(1)
+	{
+		if(strcmp(przycisk(), "RIGHT")==0)
+		{
+			typowana_liczba++;
+			if(typowana_liczba > gorny_zakres)
+			{
+				typowana_liczba = gorny_zakres;
+			}
+			sprintf(buff, "%d", typowana_liczba);
+			lcd_clear();
+			lcd_print(1, 1, "Twoja liczba:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "UP")==0)
+		{
+			typowana_liczba += 10;
+			if(typowana_liczba > gorny_zakres)
+			{
+				typowana_liczba = gorny_zakres;
+			}
+			sprintf(buff, "%d", typowana_liczba);
+			lcd_clear();
+			lcd_print(1, 1, "Twoja liczba:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "LEFT")==0)
+		{
+			typowana_liczba--;
+			if(typowana_liczba < dolny_zakres)
+			{
+				typowana_liczba = dolny_zakres;
+			}
+			sprintf(buff, "%d", typowana_liczba);
+			lcd_clear();
+			lcd_print(1, 1, "Twoja liczba:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "DOWN")==0)
+		{
+			typowana_liczba -= 10;
+			if(typowana_liczba < dolny_zakres)
+			{
+				typowana_liczba = dolny_zakres;
+			}
+			sprintf(buff, "%d", typowana_liczba);
+			lcd_clear();
+			lcd_print(1, 1, "Twoja liczba:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "SELECT")==0)
+		{
+			liczba_prob++;
+
+			if(typowana_liczba == wylosowana_liczba)
+			{
+				tablica[id_gracza-1]++;
+				sprintf(buff, "Liczba prob: %d", liczba_prob);
+				lcd_clear();
+				lcd_print(1, 1, "Udalo sie!");
+				lcd_print(2, 1, buff);
+
+				for(int i=0; i<50; i++)
+				{
+					HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+					HAL_Delay(75);
+				}
+				HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+				break;
+			}
+			else if(wylosowana_liczba < typowana_liczba)
+			{
+				lcd_clear();
+				lcd_print(1, 1, "Wyloswana liczba");
+				lcd_print(2, 1, "jest mniejsza");
+				HAL_Delay(2500);
+
+				typowana_liczba = 0;
+				sprintf(buff, "%d", typowana_liczba);
+				lcd_clear();
+				lcd_print(1, 1, "Twoja liczba:");
+				lcd_print(2, 1, buff);
+			}
+			else if(wylosowana_liczba > typowana_liczba)
+			{
+				lcd_clear();
+				lcd_print(1, 1, "Wyloswana liczba");
+				lcd_print(2, 1, "jest wieksza");
+				HAL_Delay(2500);
+
+				typowana_liczba = 0;
+				sprintf(buff, "%d", typowana_liczba);
+				lcd_clear();
+				lcd_print(1, 1, "Twoja liczba:");
+				lcd_print(2, 1, buff);
+			}
+		}
+		HAL_Delay(300);
+	}
+}
+
+// funkcja losujaca liczbe z zakresu
+int losuj_liczbe(int dolna_granica, int gorna_granica)
+{
+	return rand() % (gorna_granica - dolna_granica + 1) + dolna_granica;
+}
+
+// funkcja prosi o podanie gornej granicy zakresu
+int ustaw_gorna_granice()
+{
+	int gorna_granica = 0;
+
+	char buff[10];
+	sprintf(buff, "%d", gorna_granica);
+
+	lcd_clear();
+	lcd_print(1, 1, "Gorna granica:");
+	lcd_print(2, 1, buff);
+
+	while(1)
+	{
+		if(strcmp(przycisk(), "RIGHT")==0)
+		{
+			gorna_granica++;
+			if(gorna_granica > MAX_GORNA_GRANICA)
+			{
+				gorna_granica = MAX_GORNA_GRANICA;
+			}
+			sprintf(buff, "%d", gorna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Gorna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "UP")==0)
+		{
+			gorna_granica += 10;
+			if(gorna_granica > MAX_GORNA_GRANICA)
+			{
+				gorna_granica = MAX_GORNA_GRANICA;
+			}
+			sprintf(buff, "%d", gorna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Gorna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "LEFT")==0)
+		{
+			gorna_granica--;
+			if(gorna_granica < MAX_DOLNA_GRANICA)
+			{
+				gorna_granica = MAX_DOLNA_GRANICA;
+			}
+			sprintf(buff, "%d", gorna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Gorna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "DOWN")==0)
+		{
+			gorna_granica -= 10;
+			if(gorna_granica < MAX_DOLNA_GRANICA)
+			{
+				gorna_granica = MAX_DOLNA_GRANICA;
+			}
+			sprintf(buff, "%d", gorna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Gorna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "SELECT")==0)
+		{
+			break;
+		}
+		HAL_Delay(300);
+	}
+
+	return gorna_granica;
+}
+
+// funkcja prosi o podanie dolnej granicy zakresu
+int ustaw_dolna_granice()
+{
+	int dolna_granica = 0;
+
+	char buff[10];
+	sprintf(buff, "%d", dolna_granica);
+
+	lcd_clear();
+	lcd_print(1, 1, "Dolna granica:");
+	lcd_print(2, 1, buff);
+
+	while(1)
+	{
+		if(strcmp(przycisk(), "RIGHT")==0)
+		{
+			dolna_granica++;
+			if(dolna_granica > MAX_GORNA_GRANICA)
+			{
+				dolna_granica = MAX_GORNA_GRANICA;
+			}
+			sprintf(buff, "%d", dolna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Dolna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "UP")==0)
+		{
+			dolna_granica += 10;
+			if(dolna_granica > MAX_GORNA_GRANICA)
+			{
+				dolna_granica = MAX_GORNA_GRANICA;
+			}
+			sprintf(buff, "%d", dolna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Dolna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "LEFT")==0)
+		{
+			dolna_granica--;
+			if(dolna_granica < MAX_DOLNA_GRANICA)
+			{
+				dolna_granica = MAX_DOLNA_GRANICA;
+			}
+			sprintf(buff, "%d", dolna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Dolna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "DOWN")==0)
+		{
+			dolna_granica -= 10;
+			if(dolna_granica < MAX_DOLNA_GRANICA)
+			{
+				dolna_granica = MAX_DOLNA_GRANICA;
+			}
+			sprintf(buff, "%d", dolna_granica);
+			lcd_clear();
+			lcd_print(1, 1, "Dolna granica:");
+			lcd_print(2, 1, buff);
+		}
+		else if(strcmp(przycisk(), "SELECT")==0)
+		{
+			break;
+		}
+		HAL_Delay(300);
+	}
+
+	return dolna_granica;
+}
+
+// funkcja zwraca nazwe nacisnietego przycisku
+char *przycisk()
+{
+	uint32_t analogValue;
+
+	// pomiar napiecia
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	analogValue = HAL_ADC_GetValue(&hadc1);
+
+	if(analogValue<100)
+	{
+		  return "RIGHT";
+	}
+	else if(analogValue<700)
+	{
+		  return "UP";
+	}
+	else if(analogValue<1600)
+	{
+		  return "DOWN";
+	}
+	else if(analogValue<2700)
+	{
+		  return "LEFT";
+	}
+	else if(analogValue<3850)
+	{
+		  return "SELECT";
+	}
+	else
+	{
+		  return "NIC";
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -80,11 +524,6 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
-  lcd_init(_LCD_4BIT, _LCD_FONT_5x8, _LCD_2LINE);
-  lcd_clear();
-
-  srand(time(NULL));
-
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -99,15 +538,8 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
-  char analog[10];
-  uint32_t analogValue;
-
-  char buff[10];
-  float napiecie;
-  int zakres_dolny = -10;
-  int zakres_gorny = 10;
-
-  int liczba = 10;
+  lcd_init(_LCD_4BIT, _LCD_FONT_5x8, _LCD_2LINE);
+  srand(time(NULL));
 
   /* USER CODE END 2 */
 
@@ -117,53 +549,35 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-//	  HAL_ADC_Start(&hadc1);
-//	  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-//	  analogValue = HAL_ADC_GetValue(&hadc1);
-//	  sprintf(analog, "%hu", analogValue);
-//
-//	  lcd_clear();
-//	  lcd_print(1, 1, analog);
-//	  HAL_Delay(50);
-
-//	  int liczba = rand() % (zakres_gorny - zakres_dolny + 1) + zakres_dolny;
-	  sprintf(buff, "%d", liczba);
-	  lcd_clear();
-	  lcd_print(1,1,buff);
-
-
     /* USER CODE BEGIN 3 */
 
-	  HAL_ADC_Start(&hadc1);
-	  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	  analogValue = HAL_ADC_GetValue(&hadc1);
-	  napiecie = analogValue*3.3/4095;
+	  int id = wybierz_id();
+	  HAL_Delay(500);
 
-	  if(napiecie < 0.1)
-	  {
-		  liczba +=1 ;
-	  }
-	  else if(napiecie < 0.6)
-	  {
-		  liczba += 10;
-	  }
-	  else if(napiecie < 1.3)
-	  {
-		  liczba -= 10;
-	  }
-	  else if(napiecie < 1.8)
-	  {
-		  liczba -= 1;
-	  }
-	  else if(napiecie < 2.4)
-	  {
+	  int dolna_granica = ustaw_dolna_granice();
+	  HAL_Delay(500);
 
+	  int gorna_granica = ustaw_gorna_granice();
+	  HAL_Delay(500);
+
+	  while(gorna_granica <= dolna_granica)
+	  {
+		  lcd_clear();
+	  	  lcd_print(1, 1, "Niepoprawny");
+	  	  lcd_print(2, 1, "Zakres!");
+	  	  HAL_Delay(2500);
+	  	  dolna_granica = ustaw_dolna_granice();
+	  	  HAL_Delay(500);
+	  	  gorna_granica = ustaw_gorna_granice();
+	  	  HAL_Delay(500);
 	  }
 
-	  sprintf(buff, "%d", liczba);
-	  lcd_clear();
-	  lcd_print(1,1,buff);
-	  HAL_Delay(300);
+	  int wylosowana_liczba = losuj_liczbe(dolna_granica, gorna_granica);
+
+	  zgaduj(dolna_granica, gorna_granica, wylosowana_liczba, id);
+
+	  wypisz_tabele();
+	  HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
@@ -296,13 +710,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LCD_D7_Pin|LCD_RS_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LCD_D6_Pin|LCD_D5_Pin|LCD_D4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_EN_GPIO_Port, LCD_EN_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LCD_D7_Pin|LCD_RS_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pins : LD2_Pin LCD_D7_Pin LCD_RS_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|LCD_D7_Pin|LCD_RS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LCD_D6_Pin LCD_D5_Pin LCD_D4_Pin */
   GPIO_InitStruct.Pin = LCD_D6_Pin|LCD_D5_Pin|LCD_D4_Pin;
@@ -317,13 +738,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LCD_EN_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : LCD_D7_Pin LCD_RS_Pin */
-  GPIO_InitStruct.Pin = LCD_D7_Pin|LCD_RS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

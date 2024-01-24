@@ -7,7 +7,7 @@ void Plecak(int *p, int *w, int n, int W);
 
 int main()
 {
-    ifstream plik("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad2\\In0302.txt");
+    ifstream plik("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia3\\zad2\\In0302.txt");
     int n, W;
     plik>>n>>W;
 
@@ -83,7 +83,7 @@ void Plecak(int *p, int *w, int n, int W)
     int i;
     int j;
     int maks = S1[W][n];
-    ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia3\\zad2\\Out0302.txt");
+    ofstream out("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia3\\zad2\\Out0302.txt");
 
     for(int a=n; a>0; a--)
     {
@@ -114,8 +114,6 @@ void Plecak(int *p, int *w, int n, int W)
             kombinacje.clear();
             out << endl;
         }
-
-
     }
 
     delete []S1;
