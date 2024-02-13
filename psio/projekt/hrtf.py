@@ -17,8 +17,8 @@ import requests
 
 TIME = 3
 
-# lewe ucho index - 0
-# prawe ucho index - 1
+# lewe ucho index - 1
+# prawe ucho index - 0
 
 
 sofa_file = Dataset("sofa_files/mit.sofa", "r", format="NETCDF4")
@@ -42,7 +42,7 @@ def measurement_number(az):
 
 
 
-fs, signal = wavfile.read("signals/voice.wav")
+fs, signal = wavfile.read("signals/eyeofthetiger.wav")
 signal = signal/(np.max(np.abs(signal)))
 signal = signal[:TIME*fs]
 signal = resample(signal, orig_sr=fs, target_sr=sofa_fs)
