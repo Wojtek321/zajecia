@@ -42,6 +42,7 @@ def measurement_number(az):
 
 
 
+
 fs, signal = wavfile.read("signals/eyeofthetiger.wav")
 signal = signal/(np.max(np.abs(signal)))
 signal = signal[:TIME*fs]
@@ -53,28 +54,28 @@ signal = resample(signal, orig_sr=fs, target_sr=sofa_fs)
 
 
 
-angles = []
-itds = []
-ilds = []
-
-for angle in range(0, 360, 5):
-    angles.append(angle)
-
-    idx = measurement_number(angle)
-
-    H_l = sofa_file["Data.IR"][idx,0,:]
-    H_r = sofa_file["Data.IR"][idx,1,:]
-
-    Y_l = convolve(signal, H_l)
-    Y_r = convolve(signal, H_r)
-
-    itd = ITD(Y_l, Y_r)
-    itds.append(itd)
-    ild = ILD(Y_l, Y_r)
-    ilds.append(ild)
-
-x = np.column_stack((itds, ilds))
-print(x)
+# angles = []
+# itds = []
+# ilds = []
+#
+# for angle in range(0, 360, 5):
+#     angles.append(angle)
+#
+#     idx = measurement_number(angle)
+#
+#     H_l = sofa_file["Data.IR"][idx,0,:]
+#     H_r = sofa_file["Data.IR"][idx,1,:]
+#
+#     Y_l = convolve(signal, H_l)
+#     Y_r = convolve(signal, H_r)
+#
+#     itd = ITD(Y_l, Y_r)
+#     itds.append(itd)
+#     ild = ILD(Y_l, Y_r)
+#     ilds.append(ild)
+#
+# x = np.column_stack((itds, ilds))
+# print(x)
 
 # fig, axs = plt.subplots(1, 2)
 # fig.set_size_inches(18, 9)
@@ -86,31 +87,31 @@ print(x)
 
 
 
-# angle = 90
-#
-# idx = measurement_number(angle)
-# H_l = sofa_file["Data.IR"][idx,1,:]
-# H_r = sofa_file["Data.IR"][idx,0,:]
-#
-#
-#
-#
-# Y_l = convolve(signal, H_l)
-# Y_r = convolve(signal, H_r)
-#
-# plt.plot(Y_l)
-# plt.plot(Y_r)
-# plt.show()
-# itd = ITD(Y_l, Y_r, fs=sofa_fs)
-# ild = ILD(Y_l, Y_r)
-#
-#
-#
-# print(ITD(Y_l, Y_r, fs=sofa_fs))
-# print(ILD(Y_l, Y_r))
-#
-#
-# sd.play(np.column_stack((Y_l, Y_r)), 44100)
-# sd.wait()
+angle = 90
+
+idx = measurement_number(angle)
+H_l = sofa_file["Data.IR"][idx,0,:]
+H_r = sofa_file["Data.IR"][idx,1,:]
+
+
+
+
+Y_l = convolve(signal, H_l)
+Y_r = convolve(signal, H_r)
+
+plt.plot(Y_l)
+plt.plot(Y_r)
+plt.show()
+itd = ITD(Y_l, Y_r, fs=sofa_fs)
+ild = ILD(Y_l, Y_r)
+
+
+
+print(ITD(Y_l, Y_r, fs=sofa_fs))
+print(ILD(Y_l, Y_r))
+
+
+sd.play(np.column_stack((Y_l, Y_r)), 44100)
+sd.wait()
 
 
