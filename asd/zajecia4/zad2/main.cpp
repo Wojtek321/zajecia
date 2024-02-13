@@ -271,6 +271,16 @@ int main()
     file.close();
 
 
-    Johnson(list, n);
+//    Johnson(list, n);
+
+    int *h = Dijkstra(list, 4, 1);
+
+    for(int i=0; i<n; i++)
+    {
+        cout<<h[i]<<" ";
+    }
+    output<<endl;
+
+
     output.close();
 }

@@ -1,38 +1,35 @@
-import requests
 from netCDF4 import Dataset
-import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import convolve
+from scipy.signal import convolve, correlate
 from scipy.io import wavfile
 import sounddevice as sd
-import time
-from filters import lowpass_filter, highpass_filter
+from librosa import resample
 from ITD_ILD import ITD, ILD
-from gcc_phat import gcc_phat
-from scipy.signal import correlate
-from scipy.signal import fftconvolve
+import matplotlib.pyplot as plt
+import requests
 
 
-
-# URL = "http://sofacoustics.org/data/database/mit/mit_kemar_normal_pinna.sofa"
+# URL = "https://sofacoustics.org/data/database/mit/mit_kemar_normal_pinna.sofa"
 # URL = "https://sofacoustics.org/data/database/sadie/H3_48K_24bit_256tap_FIR_SOFA.sofa"
 # data = requests.get(URL).content
-# open("sadie.sofa", "wb").write(data)
-TIME = 4
+# open("sofa_files/sadie.sofa", "wb").write(data)
+
+
+TIME = 3
 
 # lewe ucho index - 0
 # prawe ucho index - 1
 
 
-sofa_file = Dataset("mit.sofa", "r", format="NETCDF4")
-# print(sofa_file)
-# print(sofa_file["Data.IR"])
+sofa_file = Dataset("sofa_files/mit.sofa", "r", format="NETCDF4")
+sofa_fs =  sofa_file['Data.SamplingRate'][:][0]
+ears_distance = sofa_file['ReceiverPosition'][1, 1] - sofa_file['ReceiverPosition'][0, 1]
+print(f"fs: {sofa_fs}")
+print(f"distance: {ears_distance}")
 
 ARR = sofa_file['SourcePosition'][:]
 
-# for i in range(len(ARR)):
-#     if ARR[i,1] == 0:
-#         print(f"[{i}] ", ARR[i])
+
 
 def measurement_number(az):
     condition1 = (ARR[:,0] == az)
@@ -42,81 +39,78 @@ def measurement_number(az):
     return row_indices[0]
 
 
-angle = 90
-
-idx = measurement_number(angle)
-H_l = sofa_file["Data.IR"][idx,0,:]
-H_r = sofa_file["Data.IR"][idx,1,:]
-
-
-_, trumpet = wavfile.read("Trumpet.wav")
-trumpet = trumpet/(np.max(np.abs(trumpet)))
-trumpet = trumpet[:TIME*44100]
-
-
-Y_l = convolve(trumpet, H_l, mode="same")
-Y_r = convolve(trumpet, H_r, mode="same")
 
 
 
+fs, signal = wavfile.read("signals/voice.wav")
+signal = signal/(np.max(np.abs(signal)))
+signal = signal[:TIME*fs]
+signal = resample(signal, orig_sr=fs, target_sr=sofa_fs)
 
-print(ITD(H_l, H_r))
-print(ITD(Y_l, Y_r))
-# print(ILD(Y_l, Y_r))
+# for i in range(710):
+#     if ARR[i, 1]==0:
+#         print(ARR[i])
 
 
-# def azimuth(ITD):
-#     return np.degrees(np.arctan2(itd * 343, 0.18))
+
+angles = []
+itds = []
+ilds = []
+
+for angle in range(0, 360, 5):
+    angles.append(angle)
+
+    idx = measurement_number(angle)
+
+    H_l = sofa_file["Data.IR"][idx,0,:]
+    H_r = sofa_file["Data.IR"][idx,1,:]
+
+    Y_l = convolve(signal, H_l)
+    Y_r = convolve(signal, H_r)
+
+    itd = ITD(Y_l, Y_r)
+    itds.append(itd)
+    ild = ILD(Y_l, Y_r)
+    ilds.append(ild)
+
+x = np.column_stack((itds, ilds))
+print(x)
 
 # fig, axs = plt.subplots(1, 2)
-# fig.set_size_inches(14, 6)
-# ax = axs[0]; ax.plot(fft(Y_l)); ax.set_xlim((0, 20000))
-# ax = axs[1]; ax.plot(fft(lowpass_filter(Y_l))); ax.set_xlim((0, 20000))
+# fig.set_size_inches(18, 9)
+# ax = axs[0]; ax.stem(angles, itds); ax.set_title("mit.sofa ITD - same IRs"); ax.set_xlabel("angle [°]"); ax.set_ylabel("time [s]")
+# ax = axs[1]; ax.stem(angles, ilds); ax.set_title("mit.sofa ILD - same IRs"); ax.set_xlabel("angle [°]"); ax.set_ylabel("amplitude [dB]")
 # fig.set_tight_layout(tight=True)
-# plt.savefig("fft1.png")
+# plt.savefig("mit_itd_ild.png")
+
+
+
+
+# angle = 90
 #
-# fig, axs = plt.subplots(1, 2)
-# fig.set_size_inches(14, 6)
-# ax = axs[0]; ax.plot(fft(Y_l)); ax.set_xlim((0, 20000))
-# ax = axs[1]; ax.plot(fft(highpass_filter(Y_l))); ax.set_xlim((0, 20000))
-# fig.set_tight_layout(tight=True)
-# plt.savefig("fft2.png")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Y_l = Y_l/(np.max(np.abs(Y_l)))
-# Y_r = Y_r/(np.max(np.abs(Y_r)))
-# plt.plot(H_l, label='left')
-# plt.plot(H_r, label='right')
-# plt.title("H_l and H_r")
-# plt.legend()
+# idx = measurement_number(angle)
+# H_l = sofa_file["Data.IR"][idx,1,:]
+# H_r = sofa_file["Data.IR"][idx,0,:]
+#
+#
+#
+#
+# Y_l = convolve(signal, H_l)
+# Y_r = convolve(signal, H_r)
+#
+# plt.plot(Y_l)
+# plt.plot(Y_r)
 # plt.show()
-# result = np.column_stack((Y_l, Y_r))
-# print(result.shape)
+# itd = ITD(Y_l, Y_r, fs=sofa_fs)
+# ild = ILD(Y_l, Y_r)
+#
+#
+#
+# print(ITD(Y_l, Y_r, fs=sofa_fs))
+# print(ILD(Y_l, Y_r))
+#
+#
+# sd.play(np.column_stack((Y_l, Y_r)), 44100)
+# sd.wait()
 
-# plt.plot(Y_l, label='left')
-# plt.plot(Y_r, label='right')
-# plt.title("Y_l and Y_r")
-# plt.legend()
-# plt.show()
-
-# sd.play(result, 44100)
-# sd.wait()
-# sd.play(Y_l, 44100)
-# sd.wait()
-# time.sleep(1)
-# sd.play(Y_r, 44100)
-# sd.wait()
 

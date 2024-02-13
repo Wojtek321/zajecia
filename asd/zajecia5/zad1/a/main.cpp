@@ -409,7 +409,7 @@ int main()
                 string linia;
                 int a;
 
-                ifstream file("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\InTest1.txt");
+                ifstream file("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\InTest1.txt");
                 getline(file, linia);
                 file.close();
                 istringstream line(linia);
@@ -435,7 +435,7 @@ int main()
                 int range = b - a + 1;
 
 
-                ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest2.txt");
+                ofstream out("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest2.txt");
                 for(int i=0; i<n; i++)
                 {
                     int x = rand() % range + a;
@@ -448,7 +448,7 @@ int main()
             }
             case 3:
             {
-                ofstream out("C:\\Users\\Wojtek\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest3.txt");
+                ofstream out("C:\\Users\\wojte\\Desktop\\zajecia\\asd\\zajecia5\\zad1\\a\\OutTest3.txt");
                 KLP(root, out);
                 out.close();
 
