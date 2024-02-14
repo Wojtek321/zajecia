@@ -15,7 +15,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from joblib import dump, load
 
 
-TIME = 3
+TIME = 0.0001
 SIGNALS_PATH = 'signals'
 SIGNALS = ['eyeofthetiger.wav', 'guitar.wav', 'music2.wav', 'podcast.wav', 'shrek.wav', 'trumpet.wav']
 SOFA_PATH = 'sofa_files'
@@ -127,12 +127,12 @@ sofa_fs =  sofa_file['Data.SamplingRate'][:][0]
 ears_distance = sofa_file['ReceiverPosition'][1, 1] - sofa_file['ReceiverPosition'][0, 1]
 ARR = sofa_file['SourcePosition'][:]
 
-fs, data = wavfile.read('signals/nirvana.wav')
+fs, data = wavfile.read('signals/scooby.wav')
 data = data / (np.max(np.abs(data)))
-data = data[:TIME * fs]
+data = data[:int(TIME * fs)]
 data = resample(data, orig_sr=fs, target_sr=sofa_fs)
 
-angle = 185
+angle = 90
 idx = measurement_number(angle)
 
 H_l = sofa_file["Data.IR"][idx,1,:]
