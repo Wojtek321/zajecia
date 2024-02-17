@@ -14,6 +14,7 @@ import tkinter as tk
 import random
 # import pyaudio
 from PIL import Image, ImageTk
+import math
 
 
 
@@ -169,7 +170,8 @@ def gcc_phat(sig, refsig, fs=44100, max_tau=None, interp=16):
     return tau, cc
 
 
-
+size_X = 600
+size_Y = 400
 def coordinates_of_speakers(angle):
     x = WIDTH / 2 - np.cos(np.radians(angle)) * 250 - 27
     y = HEIGHT - np.sin(np.radians(angle)) * 250 - 110
@@ -177,7 +179,7 @@ def coordinates_of_speakers(angle):
 
 
 def coordinates_of_arrow(angle):
-    x = WIDTH / 2 - np.cos(np.radians(angle)) * ARROW_LENGTH - 3
+    x = WIDTH / 2 - np.cos(np.radians(angle)) * ARROW_LENGTH
     y = HEIGHT - np.sin(np.radians(angle)) * ARROW_LENGTH - 85
     return x-15, y+15
 
@@ -186,7 +188,7 @@ dictionary_arrow = {}
 for i in range(0,AMOUNT_OF_SPEAKERS):
     x,y = coordinates_of_arrow(ANGLE*i)
     dictionary_arrow[i+1] = (x+15,y+15)
-# pprint(dictionary_arrow)
+#pprint(dictionary_arrow)
 
 
 
@@ -194,10 +196,12 @@ root = tk.Tk()
 root.resizable(width=False, height=False)
 root.configure(background='#00c3e3')
 root.title("yś")
-root.geometry('600x400')
+root.geometry(f'{size_X}x{size_Y}')
 line_canvas = tk.Canvas(root, highlightthickness=0, width=620, height=400, background='#00c3e3')
 line_canvas.place(x=0, y=0)
 
+
+#glosniki
 angle_of_rotate = 0
 for i in range(0,AMOUNT_OF_SPEAKERS):
     speakers_canvas = tk.Canvas(root,highlightthickness=0, width=70, height=70,background='#00c3e3')
@@ -246,49 +250,26 @@ def update(i):
     else:
         root.after(0, update, 1)
 
+def angle_rounding(angle):
+    step = 180/(AMOUNT_OF_SPEAKERS-1)
+    #print(step)
+    angles_of_speakers = []
+    for i in range(0,AMOUNT_OF_SPEAKERS+1):
+        angles_of_speakers.append(i*step-(step/2))
+    #pprint(angles_of_speakers)
+    if angle not in angles_of_speakers:
+        rounded_angle = round(angle / step) * step
+    else:
+        rounded_angle = math.ceil(angle / step) * step
+    return rounded_angle
 
+kat = 355
+kat_zaokraglony = angle_rounding(kat)
+#print(kat_zaokraglony)
+x, y = coordinates_of_arrow(kat + 90)
+#x, y = coordinates_of_arrow(kat_zaokraglony + 90)
+arrow = line_canvas.create_line(300, 334, x+15, y+15, fill='red', width=10, arrow='last')
 
-arrow = line_canvas.create_line(300, 334, dictionary_arrow[5][0], dictionary_arrow[5][1], fill='red', width=10, arrow='last')
-
-
-root.after(600, update, 1)
-
-# def pierwszy():
-#     print("Thread 1 started")
-#     input1 = sd.InputStream(samplerate=FS, channels=2, device=1, callback=audio_callback1)
-#     with input1:
-#         print(f"input1: {input1.active}")
-#
-# def drugi():
-#     print("Thread 2 started")
-#     input2 = sd.InputStream(samplerate=FS, channels=2, device=2, callback=audio_callback2)
-#     with input2:
-#         print(f"input2: {input2.active}")
-
-# input1 = sd.InputStream(samplerate=FS, channels=2, device=1, callback=audio_callback1)
-#
-# input2 = sd.InputStream(samplerate=FS, channels=2, device=2, callback=audio_callback2)
-
-
-# ani = FuncAnimation(fig, update_plot, init_func=plot_init, interval=ANIMATION_INTERVAL, blit=True, cache_frame_data=False)
-
-# thread1 = Thread(target=pierwszy)
-# thread2 = Thread(target=drugi)
-#
-# thread1.start()
-# thread2.start()
-# # plt.show()
-# print(f"Thread 1 alive: {thread1.is_alive()}")
-# print(f"Thread 2 alive: {thread2.is_alive()}")
-# root.mainloop()
-# thread1.join()
-# thread2.join()
-
-
-# with input1 and input2:
-#
-#     print(input1.is_active())
-#     print(input2.is_active())
-#     plt.show()
+#arrow = line_canvas.create_line(300, 334, dictionary_arrow[AMOUNT_OF_SPEAKERS//2+1][0], dictionary_arrow[AMOUNT_OF_SPEAKERS//2+1][1], fill='red', width=10, arrow='last')
 root.mainloop()
 
