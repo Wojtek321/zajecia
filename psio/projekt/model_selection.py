@@ -23,15 +23,11 @@ def evaluate_model(model):
 
     Y_pred = scaler_y.inverse_transform(Y_pred.reshape(-1, 1))
     data[model] = Y_pred.flatten()
-    # scores = cross_validate(model, X, Y, scoring=['r2', 'neg_mean_absolute_error', 'neg_mean_squared_error'])
-    #
-    # R2.append(scores['test_r2'].mean())
-    # MAE.append(scores['test_neg_mean_absolute_error'].mean())
-    # MSE.append(scores['test_neg_mean_squared_error'].mean())
+
 
 scaler_x = load('scaler_x.joblib')
 scaler_y = load('scaler_y.joblib')
-MODELS = [DecisionTreeRegressor(), RandomForestRegressor(), SVR(), KNeighborsRegressor()]
+MODELS = [DecisionTreeRegressor(max_depth=5,max_leaf_nodes=26,min_samples_split=8), RandomForestRegressor(min_samples_split=4,n_estimators=4), SVR(), KNeighborsRegressor()]
 R2 = []
 MAE = []
 MSE = []
@@ -44,23 +40,23 @@ data = {
     MODELS[3]: [],
 }
 
-
 for model in MODELS:
     evaluate_model(model)
 
-# X_axis = np.arange(len(MODELS))
-#
-# plt.figure(figsize=(13,11))
-# plt.bar(X_axis-0.3, R2, 0.3, label = 'R Square', color='royalblue')
-# plt.bar(X_axis, MAE, 0.3, label = 'MAE', color='magenta')
-# plt.bar(X_axis+0.3, MSE, 0.3, label = 'MSE', color='deepskyblue')
-# plt.xticks(X_axis, MODELS)
-# plt.legend()
-# plt.savefig('models_results.png')
 
+X_axis = np.arange(len(MODELS))
 
+plt.figure(figsize=(13,11))
+plt.bar(X_axis-0.3, R2, 0.3, label = 'R Square', color='royalblue')
+plt.bar(X_axis,MAE, 0.3, label = 'MAE', color='magenta')
+plt.bar(X_axis+0.3,MSE, 0.3, label = 'MSE', color='deepskyblue')
+plt.xticks(X_axis, MODELS)
+plt.legend()
+plt.savefig('model_results.png')
 
 
 df = pd.DataFrame(data)
-df.to_excel('models_results.xlsx')
+df.to_excel('models_results.xlsx',index=False)
+print(df.columns)
+
 
