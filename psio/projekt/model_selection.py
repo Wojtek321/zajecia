@@ -14,7 +14,7 @@ import pandas as pd
 
 
 def evaluate_model(model):
-    model.fit(X_train, Y_train)
+    model.fit(X_train, np.ravel(Y_train))
     Y_pred = model.predict(X_test)
 
     R2.append(r2_score(Y_test, Y_pred))
@@ -52,18 +52,15 @@ for model in MODELS:
 #
 # plt.figure(figsize=(13,11))
 # plt.bar(X_axis-0.3, R2, 0.3, label = 'R Square', color='royalblue')
-# plt.bar(X_axis, np.dot(MAE, -1), 0.3, label = 'MAE', color='magenta')
-# plt.bar(X_axis+0.3, np.dot(MSE, -1), 0.3, label = 'MSE', color='deepskyblue')
+# plt.bar(X_axis, MAE, 0.3, label = 'MAE', color='magenta')
+# plt.bar(X_axis+0.3, MSE, 0.3, label = 'MSE', color='deepskyblue')
 # plt.xticks(X_axis, MODELS)
 # plt.legend()
-# plt.savefig('model_results.png')
+# plt.savefig('models_results.png')
 
 
 
-pprint(data)
 
 df = pd.DataFrame(data)
-
-print(df)
-# pd.set_option('display.max_columns', 5)
+df.to_excel('models_results.xlsx')
 
