@@ -1,4 +1,4 @@
-from scipy.signal import butter, lfilter, freqz, filtfilt
+from scipy.signal import butter, freqz, filtfilt
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -24,12 +24,10 @@ a_high = coefficients[1]
 
 
 def lowpass_filter(signal):
-    # return lfilter(b_low, a_low, signal)
     return filtfilt(b_low, a_low, signal)
 
 
 def highpass_filter(signal):
-    # return lfilter(b_high, a_high, signal)
     return filtfilt(b_high, a_high, signal)
 
 
@@ -56,21 +54,7 @@ def main():
     ax.set_title("Highpass filter frequency response")
 
     fig.set_tight_layout(tight=True)
-    plt.savefig("Filtry.png")
-
-    # t = 0.01
-    # fs = 44100
-    # n = np.arange(0, t, 1/fs)
-    # sin = np.sin(2*np.pi*500*n)
-    # sin2 = np.sin(2*np.pi*2000*n)
-    # plt.plot(sin)
-    # plt.show()
-    # plt.clf()
-    # plt.plot(sin+sin2)
-    # plt.show()
-    # plt.clf()
-    # plt.plot(lowpass_filter(sin+sin2))
-    # plt.show()
+    plt.savefig("Filters_frequency_responses.png")
 
 
 if __name__ == "__main__":

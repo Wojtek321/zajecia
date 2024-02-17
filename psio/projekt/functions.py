@@ -77,3 +77,11 @@ def ILD(Y_l, Y_r):
     # print(l/r)
 
     return 10 * np.log10(l/r)
+
+
+def measurement_number(az, ARR):
+    condition1 = (ARR[:,0] == az)
+    condition2 = (ARR[:,1] == 0)
+
+    row_indices = np.where(np.all(np.logical_and(condition1[:, None], condition2[:, None]), axis=1))[0]
+    return row_indices[0]

@@ -4,7 +4,7 @@ from scipy.signal import convolve, correlate
 from scipy.io import wavfile
 import sounddevice as sd
 from librosa import resample
-from ITD_ILD import ITD, ILD
+from functions import ITD, ILD
 import matplotlib.pyplot as plt
 import requests
 
