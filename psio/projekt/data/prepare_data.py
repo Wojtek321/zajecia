@@ -1,18 +1,20 @@
+from utils import ITD, ILD, measurement_number
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 from scipy.io import wavfile
 from scipy.signal import convolve
-import numpy as np
 from librosa import resample
 from netCDF4 import Dataset
-from sklearn.preprocessing import MinMaxScaler
 from joblib import dump
+import numpy as np
 import os
-from functions import ITD, ILD, measurement_number
+
 
 
 TIME = 0.1
-SIGNALS_PATH = 'signals'
+SIGNALS_PATH = '../assets/signals'
 SIGNALS = ['eyeofthetiger.wav', 'guitar.wav', 'music.wav', 'nirvana.wav', 'noise.wav', 'podcast.wav', 'shrek.wav', 'trumpet.wav', 'voice.wav']
-SOFA_PATH = 'sofa_files'
+SOFA_PATH = '../assets/sofa_files'
 SOFA_FILES = ['mit.sofa', 'sadie.sofa']
 angles = np.concatenate((range(0, 91, 5), range(270, 360, 5)))
 X = []
@@ -62,5 +64,7 @@ X = scaler_x.fit_transform(X)
 Y = np.array(Y).reshape(-1, 1)
 Y = scaler_y.fit_transform(Y)
 
-dump(scaler_x, 'scaler_x.joblib')
-dump(scaler_y, 'scaler_y.joblib')
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+dump(scaler_x, '../data/scalers/scaler_x.joblib')
+dump(scaler_y, '../data/scalers/scaler_y.joblib')

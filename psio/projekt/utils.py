@@ -1,4 +1,4 @@
-from scipy.signal import butter, freqz, filtfilt
+from scipy.signal import butter, filtfilt, correlate, freqz
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -29,6 +29,39 @@ def lowpass_filter(signal):
 
 def highpass_filter(signal):
     return filtfilt(b_high, a_high, signal)
+
+
+def ITD(Y_l, Y_r, fs=44100):
+    Y_l = lowpass_filter(Y_l)
+    Y_r = lowpass_filter(Y_r)
+
+    n = len(Y_l)
+
+    corr = correlate(Y_r, Y_l, mode='same') / np.sqrt(correlate(Y_l, Y_l, mode='same')[int(n / 2)] * correlate(Y_r, Y_r, mode='same')[int(n / 2)])
+
+    delay_arr = np.linspace(-0.5 * n / fs, 0.5 * n / fs, n)
+    delay = delay_arr[np.argmax(corr)]
+    return delay
+
+
+def ILD(Y_l, Y_r):
+    Y_l = highpass_filter(Y_l)
+    Y_r = highpass_filter(Y_r)
+
+    l = sum(Y_l**2)
+    r = sum(Y_r**2)
+
+    return 10 * np.log10(l/r)
+
+
+def measurement_number(az, ARR):
+    condition1 = (ARR[:,0] == az)
+    condition2 = (ARR[:,1] == 0)
+
+    row_indices = np.where(np.all(np.logical_and(condition1[:, None], condition2[:, None]), axis=1))[0]
+    return row_indices[0]
+
+
 
 
 def main():
