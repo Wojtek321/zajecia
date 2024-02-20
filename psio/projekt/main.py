@@ -1,11 +1,13 @@
-from utils import ITD, ILD
+from utils.tools import ITD, ILD
+from utils.consts import FS
 from joblib import load
 from gui.app import Window
 import sounddevice as sd
 import numpy as np
 
-FS = 44100
+
 MODEL = 'decision_tree_regressor.joblib'
+
 root = Window(round_to_speaker=False)
 
 devices = sd.query_devices()

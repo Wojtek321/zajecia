@@ -1,4 +1,4 @@
-from utils import ITD, ILD, measurement_number
+from utils.tools import ITD, ILD, measurement_number
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from scipy.io import wavfile
@@ -51,6 +51,7 @@ for sofa in SOFA_FILES:
 
             itd = ITD(Y_l, Y_r, sofa_fs)
             ild = ILD(Y_l, Y_r)
+            print(f"{angle}, {itd}, {ild}")
             X.append([itd, ild])
             Y.append(angle)
 

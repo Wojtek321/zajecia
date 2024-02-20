@@ -1,12 +1,7 @@
 from scipy.signal import butter, filtfilt, correlate, freqz
+from utils.consts import FS, LOW_FREQ_CUTOFF, HIGH_FREQ_CUTOFF, ORDER
 import matplotlib.pyplot as plt
 import numpy as np
-
-
-FS = 44100
-LOW_FREQ_CUTOFF = 1500
-HIGH_FREQ_CUTOFF = 3000
-ORDER = 6
 
 
 # designing lowpass filter
@@ -41,6 +36,9 @@ def ITD(Y_l, Y_r, fs=44100):
 
     delay_arr = np.linspace(-0.5 * n / fs, 0.5 * n / fs, n)
     delay = delay_arr[np.argmax(corr)]
+
+    # delay = (np.argmax(corr) - int(n / 2) + 1)/fs
+
     return delay
 
 
@@ -48,8 +46,8 @@ def ILD(Y_l, Y_r):
     Y_l = highpass_filter(Y_l)
     Y_r = highpass_filter(Y_r)
 
-    l = sum(Y_l**2)
-    r = sum(Y_r**2)
+    l = sum([x**2 for x in Y_l])
+    r = sum([x**2 for x in Y_r])
 
     return 10 * np.log10(l/r)
 
@@ -60,8 +58,6 @@ def measurement_number(az, ARR):
 
     row_indices = np.where(np.all(np.logical_and(condition1[:, None], condition2[:, None]), axis=1))[0]
     return row_indices[0]
-
-
 
 
 def main():

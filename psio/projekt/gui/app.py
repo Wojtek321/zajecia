@@ -1,14 +1,15 @@
+from utils.consts import N_SPEAKERS
 from PIL import Image, ImageTk
 import numpy as np
 import tkinter as tk
 import math
 
 
-AMOUNT_OF_SPEAKERS = 9
+
 ARROW_LENGTH = 200
 HEIGHT = 400
 WIDTH = 600
-STEP = 180 / (AMOUNT_OF_SPEAKERS - 1)
+STEP = 180 / (N_SPEAKERS - 1)
 
 
 class Window(tk.Tk):
@@ -33,7 +34,7 @@ class Window(tk.Tk):
 
     def create_speakers(self):
         angle_of_rotate = 0
-        for i in range(0, AMOUNT_OF_SPEAKERS):
+        for i in range(0, N_SPEAKERS):
             speakers_canvas = tk.Canvas(self, highlightthickness=0, width=70, height=70, background='#00c3e3')
             speakers_canvas.pack()
 
@@ -72,7 +73,7 @@ class Arrow(tk.Canvas):
 
     def angle_rounding(self, angle):
         angles_of_speakers = []
-        for i in range(0, AMOUNT_OF_SPEAKERS + 1):
+        for i in range(0, N_SPEAKERS + 1):
             angles_of_speakers.append(i * STEP - (STEP / 2))
         # pprint(angles_of_speakers)
         if angle not in angles_of_speakers:
@@ -84,6 +85,5 @@ class Arrow(tk.Canvas):
 
 if __name__ == '__main__':
     root = Window(round_to_speaker=False)
-    root.update_arrow(0)
 
     root.mainloop()

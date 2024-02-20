@@ -4,7 +4,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import GridSearchCV
 from data.prepare_data import X_train, Y_train, X_test, Y_test, scaler_y
 from statistics import mean
-from joblib import dump, load
+from joblib import dump
 import numpy as np
 import pandas as pd
 from pprint import pprint
