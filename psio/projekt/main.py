@@ -38,7 +38,6 @@ def audio_callback(indata, frames, time, status):
     root.update_arrow(angle)
 
 
-
 input = sd.InputStream(samplerate=FS, channels=2, device=mic_name, callback=audio_callback)
 
 

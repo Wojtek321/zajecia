@@ -84,7 +84,7 @@ angle_of_rotate = 0
 for i in range(0,AMOUNT_OF_SPEAKERS):
     speakers_canvas = tk.Canvas(root,highlightthickness=0, width=70, height=70,background='#00c3e3')
     speakers_canvas.pack()
-    original_image = Image.open("assets/iamges/speaker.png")
+    original_image = Image.open("assets/images/speaker.png")
     resized_image = original_image.resize((90, 90))
 
     rotated_image = resized_image.rotate(angle_of_rotate)

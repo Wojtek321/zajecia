@@ -25,7 +25,9 @@ MSE = []
 for model in MODELS:
     evaluate_model(model)
 
+
 X_axis = np.arange(len(MODELS))
+plt.clf()
 plt.figure(figsize=(10, 8))
 plt.title('Comparison of model performance metrics')
 plt.bar(X_axis-0.3, R2, 0.3, label = 'R Square', color='royalblue')
@@ -33,4 +35,4 @@ plt.bar(X_axis, MAE, 0.3, label = 'MAE', color='magenta')
 plt.bar(X_axis+0.3, MSE, 0.3, label = 'MSE', color='deepskyblue')
 plt.xticks(X_axis, MODELS)
 plt.legend()
-plt.savefig('results/model_evaluation.png')
+plt.show()

@@ -3,11 +3,13 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import GridSearchCV
 from data.prepare_data import X_train, Y_train, X_test, Y_test, scaler_y
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from pprint import pprint
 from statistics import mean
 from joblib import dump
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from pprint import pprint
 
 
 def optimize_parameters(model, params):
@@ -88,15 +90,41 @@ data = {
     MODELS[1]: [],
     MODELS[2]: [],
 }
+R2 = []
+MAE = []
+MSE = []
+
 
 for model in MODELS:
     Y_pred = model.predict(X_test)
+
+    R2.append(r2_score(Y_test, Y_pred))
+    MAE.append(mean_absolute_error(Y_test, Y_pred))
+    MSE.append(mean_squared_error(Y_test, Y_pred))
+
     Y_pred = scaler_y.inverse_transform(Y_pred.reshape(-1, 1))
     data[model] = Y_pred.flatten()
 
 
 df = pd.DataFrame(data)
 df.to_excel('results/models_results_test_data.xlsx',index=False)
+
+print(MODELS)
+print(R2)
+print(MAE)
+print(MSE)
+
+X_axis = np.arange(len(MODELS))
+plt.clf()
+plt.figure(figsize=(10, 8))
+plt.title('Comparison of model performance metrics')
+plt.bar(X_axis-0.3, R2, 0.3, label='R Square', color='royalblue')
+plt.bar(X_axis, MAE, 0.3, label='MAE', color='magenta')
+plt.bar(X_axis+0.3, MSE, 0.3, label='MSE', color='deepskyblue')
+plt.xticks(X_axis, ['DecisionTreeRegressor()', 'RandomForestRegressor()', 'KNeighborsRegressor()'])
+plt.legend()
+plt.savefig('results/model_evaluation.png')
+
 
 dump(decision_tree_regressor, 'models/decision_tree_regressor.joblib')
 dump(random_forest_regressor, 'models/random_forest_regressor.joblib')

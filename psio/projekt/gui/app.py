@@ -5,7 +5,6 @@ import tkinter as tk
 import math
 
 
-
 ARROW_LENGTH = 200
 HEIGHT = 400
 WIDTH = 600
@@ -38,7 +37,7 @@ class Window(tk.Tk):
             speakers_canvas = tk.Canvas(self, highlightthickness=0, width=70, height=70, background='#00c3e3')
             speakers_canvas.pack()
 
-            image = Image.open("assets/iamges/speaker.png")
+            image = Image.open("assets/images/speaker.png")
             image = image.resize((90, 90))
             image = image.rotate(angle_of_rotate)
             image = ImageTk.PhotoImage(image)

@@ -32,12 +32,16 @@ def ITD(Y_l, Y_r, fs=44100):
 
     n = len(Y_l)
 
-    corr = correlate(Y_r, Y_l, mode='same') / np.sqrt(correlate(Y_l, Y_l, mode='same')[int(n / 2)] * correlate(Y_r, Y_r, mode='same')[int(n / 2)])
+    # corr = correlate(Y_r, Y_l, mode='same') / np.sqrt(correlate(Y_l, Y_l, mode='same')[int(n / 2)] * correlate(Y_r, Y_r, mode='same')[int(n / 2)])
+    corr = correlate(Y_r, Y_l, mode='same')
+    l_auto = correlate(Y_l, Y_l, mode='same')[int(n / 2)]
+    r_auto = correlate(Y_r, Y_r, mode='same')[int(n / 2)]
+    corr = corr / np.sqrt(l_auto*r_auto)
 
-    delay_arr = np.linspace(-0.5 * n / fs, 0.5 * n / fs, n)
-    delay = delay_arr[np.argmax(corr)]
+    # delay_arr = np.linspace(-0.5 * n / fs, 0.5 * n / fs, n)
+    # delay = delay_arr[np.argmax(corr)]
 
-    # delay = (np.argmax(corr) - int(n / 2) + 1)/fs
+    delay = (np.argmax(corr) - int(n / 2) + 1)/fs
 
     return delay
 
