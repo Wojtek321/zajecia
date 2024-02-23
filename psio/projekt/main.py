@@ -4,6 +4,7 @@ from joblib import load
 from gui.app import Window
 import sounddevice as sd
 import numpy as np
+import os
 
 
 MODEL = 'decision_tree_regressor.joblib'
@@ -14,7 +15,7 @@ devices = sd.query_devices()
 # print(devices)
 mic_name = devices[1]['name']
 
-model = load('modeling/models/' + MODEL)
+model = load(os.path.join('modeling/models', MODEL))
 scaler_x = load('data/scalers/scaler_x.joblib')
 scaler_y = load('data/scalers/scaler_y.joblib')
 

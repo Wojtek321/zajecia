@@ -46,7 +46,7 @@ decision_tree_regressor.fit(X_train, Y_train)
 rf = RandomForestRegressor()
 
 rf_params = {
-    'n_estimators': [1, 3, 5, 8, 16, 32, 64, 100, 200],
+    'n_estimators': [1, 3, 5, 8, 16, 32, 64, 100],
     'min_samples_split': [2, 4, 5, 7, 9, 10],
     'min_samples_leaf': [1, 2, 4],
 }
@@ -103,7 +103,9 @@ for model in MODELS:
     MSE.append(mean_squared_error(Y_test, Y_pred))
 
     Y_pred = scaler_y.inverse_transform(Y_pred.reshape(-1, 1))
-    data[model] = Y_pred.flatten()
+    Y_pred = Y_pred.flatten()
+    Y_pred = [round(x, 1) for x in Y_pred]
+    data[model] = Y_pred
 
 
 df = pd.DataFrame(data)
