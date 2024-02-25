@@ -15,12 +15,12 @@ class Window(tk.Tk):
     def __init__(self, round_to_speaker):
         super().__init__()
 
-        self.title("yś")
+        self.title("Determining the direction of the sound source")
         self.geometry(f'{WIDTH}x{HEIGHT}')
         self.resizable(width=False, height=False)
-        self.configure(background='#00c3e3')
+        self.configure(background='#aefcfa')
 
-        self.arrow_canvas = Arrow(self, round_to_speaker, highlightthickness=0, width=WIDTH, height=HEIGHT, background='#00c3e3')
+        self.arrow_canvas = Arrow(self, round_to_speaker, highlightthickness=0, width=WIDTH, height=HEIGHT, background='#aefcfa')
         self.arrow_canvas.place(x=0, y=0)
         self.arrow_canvas.update_arrow(0)
 
@@ -34,7 +34,7 @@ class Window(tk.Tk):
     def create_speakers(self):
         angle_of_rotate = 0
         for i in range(0, N_SPEAKERS):
-            speakers_canvas = tk.Canvas(self, highlightthickness=0, width=70, height=70, background='#00c3e3')
+            speakers_canvas = tk.Canvas(self, highlightthickness=0, width=70, height=70, background='#aefcfa')
             speakers_canvas.pack()
 
             image = Image.open("assets/images/speaker.png")
@@ -56,7 +56,7 @@ class Arrow(tk.Canvas):
     def __init__(self, master, round_to_speaker, **kwargs):
         super().__init__(master, **kwargs)
         self.round_to_speaker = round_to_speaker
-        self.arrow = self.create_line(300, 345, 0, 0, fill='red', width=10, arrow='last')
+        self.arrow = self.create_line(300, 345, 0, 0, fill='#f72323', width=10, arrow='last')
 
 
     def update_arrow(self, angle):

@@ -4,6 +4,7 @@ from joblib import load
 from gui.app import Window
 import sounddevice as sd
 import numpy as np
+import random
 import os
 
 
@@ -27,14 +28,16 @@ def audio_callback(indata, frames, time, status):
     Y_r = indata[:,1]
 
     itd = ITD(Y_l, Y_r, fs=FS)
+    # print(itd)
     ild = ILD(Y_l, Y_r)
+    # print(ild)
 
     X = [itd, ild]
     X = scaler_x.transform(np.reshape(X, (1, -1)))
     Y = model.predict(X)
     Y = scaler_y.inverse_transform(np.reshape(Y, (-1, 1)))
     angle = np.ravel(Y)[0]
-    # angle = random.randint(0, 90)
+
     print(angle)
     root.update_arrow(angle)
 
