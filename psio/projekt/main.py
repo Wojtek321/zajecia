@@ -13,7 +13,7 @@ MODEL = 'decision_tree_regressor.joblib'
 root = Window(round_to_speaker=False)
 
 devices = sd.query_devices()
-# print(devices)
+print(devices)
 mic_name = devices[1]['name']
 
 model = load(os.path.join('modeling/models', MODEL))
@@ -42,7 +42,7 @@ def audio_callback(indata, frames, time, status):
     root.update_arrow(angle)
 
 
-input = sd.InputStream(samplerate=FS, channels=2, device=mic_name, callback=audio_callback)
+input = sd.InputStream(samplerate=FS, channels=2, device=1, callback=audio_callback)
 
 
 with input:
