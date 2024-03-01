@@ -24,7 +24,7 @@ scaler_y = load('data/scalers/scaler_y.joblib')
 def audio_callback(indata, frames, time, status):
     # indata /= np.max(np.abs(indata))
 
-    if RMS(np.sum(indata, axis=1) > RMS_THRESHOLD):
+    if RMS(np.sum(indata, axis=1)/2) > RMS_THRESHOLD:
         Y_l = indata[:,0]
         Y_r = indata[:,1]
 
