@@ -73,5 +73,3 @@ ani = FuncAnimation(fig, update_plot, init_func=plot_init, interval=ANIMATION_IN
 
 with input:
     plt.show()
-
-

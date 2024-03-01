@@ -64,6 +64,10 @@ def measurement_number(az, ARR):
     return row_indices[0]
 
 
+def RMS(indata):
+    return np.sqrt(np.mean([pow(x, 2) for x in indata]))
+
+
 def main():
     fig, axs = plt.subplots(1, 2)
     fig.set_size_inches(14, 6)

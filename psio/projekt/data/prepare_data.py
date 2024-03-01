@@ -15,7 +15,7 @@ TIME = 0.1
 SIGNALS_PATH = '../assets/signals'
 SIGNALS = ['eyeofthetiger.wav', 'guitar.wav', 'music.wav', 'nirvana.wav', 'noise.wav', 'podcast.wav', 'shrek.wav', 'trumpet.wav', 'voice.wav']
 SOFA_PATH = '../assets/sofa_files'
-SOFA_FILES = ['mit.sofa', 'sadie.sofa']
+SOFA_FILES = ['sadie.sofa', 'club_fritz.sofa']
 angles = np.concatenate((range(0, 91, 5), range(270, 360, 5)))
 X = []
 Y = []
@@ -75,7 +75,7 @@ for sofa in SOFA_FILES:
         data = resample(data, orig_sr=fs, target_sr=sofa_fs)
 
 
-        for angle in np.random.choice(angles, 20):
+        for angle in np.random.choice(angles, 25):
             idx = measurement_number(angle, ARR)
 
             H_l = sofa_file["Data.IR"][idx,1,:]

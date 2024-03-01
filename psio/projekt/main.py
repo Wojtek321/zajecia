@@ -1,5 +1,5 @@
-from utils.tools import ITD, ILD
-from utils.consts import FS
+from utils.tools import ITD, ILD, RMS
+from utils.consts import FS, RMS_THRESHOLD
 from joblib import load
 from gui.app import Window
 import sounddevice as sd
@@ -22,21 +22,22 @@ scaler_y = load('data/scalers/scaler_y.joblib')
 
 
 def audio_callback(indata, frames, time, status):
-    indata /= np.max(np.abs(indata))
+    # indata /= np.max(np.abs(indata))
 
-    Y_l = indata[:,0]
-    Y_r = indata[:,1]
+    if RMS(np.sum(indata, axis=1) > RMS_THRESHOLD):
+        Y_l = indata[:,0]
+        Y_r = indata[:,1]
 
-    itd = ITD(Y_l, Y_r, fs=FS)
-    ild = ILD(Y_l, Y_r)
+        itd = ITD(Y_l, Y_r, fs=FS)
+        ild = ILD(Y_l, Y_r)
 
-    X = [itd, ild]
-    X = scaler_x.transform(np.reshape(X, (1, -1)))
-    Y = model.predict(X)
-    Y = scaler_y.inverse_transform(np.reshape(Y, (-1, 1)))
-    angle = np.ravel(Y)[0]
-    print(angle)
-    root.update_arrow(angle)
+        X = [itd, ild]
+        X = scaler_x.transform(np.reshape(X, (1, -1)))
+        Y = model.predict(X)
+        Y = scaler_y.inverse_transform(np.reshape(Y, (-1, 1)))
+        angle = np.ravel(Y)[0]
+        print(angle)
+        root.update_arrow(angle)
 
 
 
