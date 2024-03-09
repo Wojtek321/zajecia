@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 
-MODEL = 'k_neighbors_regressor.joblib'
+MODEL = 'random_forest_regressor.joblib'
 
 root = Window(round_to_speaker=True)
 
@@ -17,7 +17,9 @@ mic_name = devices[1]['name']
 
 
 model = load(os.path.join('modeling/models', MODEL))
-scaler_x = load('data/scalers/scaler_x.joblib')
+# scaler_x = load('data/scalers/scaler_x.joblib')
+scaler_itd = load('data/scalers/scaler_itd.joblib')
+scaler_ild = load('data/scalers/scaler_ild.joblib')
 scaler_y = load('data/scalers/scaler_y.joblib')
 
 
@@ -31,8 +33,13 @@ def audio_callback(indata, frames, time, status):
         itd = ITD(Y_l, Y_r, fs=FS)
         ild = ILD(Y_l, Y_r)
 
-        X = [itd, ild]
-        X = scaler_x.transform(np.reshape(X, (1, -1)))
+        itd = scaler_itd.transform(np.reshape(itd, (-1, 1)))
+        ild = scaler_ild.transform(np.reshape(ild, (-1, 1)))
+
+
+        # X = scaler_x.transform(np.reshape(X, (1, -1)))
+        X = np.column_stack((itd, ild))
+
         Y = model.predict(X)
         Y = scaler_y.inverse_transform(np.reshape(Y, (-1, 1)))
         angle = np.ravel(Y)[0]

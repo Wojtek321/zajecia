@@ -1,4 +1,4 @@
-from data.prepare_data import X_train, X_test, Y_train, Y_test
+from data.prepare_data import X_train, X_test, Y_train, Y_test, scaler_y
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -13,8 +13,10 @@ def evaluate_model(model):
     Y_pred = model.predict(X_test)
 
     R2.append(r2_score(Y_test, Y_pred))
-    MAE.append(mean_absolute_error(Y_test, Y_pred))
-    MSE.append(mean_squared_error(Y_test, Y_pred))
+    mae = mean_absolute_error(Y_test, Y_pred)
+    MAE.append(scaler_y.inverse_transform(np.reshape(mae, (-1, 1)))[0][0])
+    mse = mean_squared_error(Y_test, Y_pred)
+    MSE.append(scaler_y.inverse_transform(np.reshape(mse, (-1, 1)))[0][0])
 
 
 MODELS = [DecisionTreeRegressor(), RandomForestRegressor(), SVR(), KNeighborsRegressor()]

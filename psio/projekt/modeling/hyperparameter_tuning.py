@@ -6,10 +6,11 @@ from data.prepare_data import X_train, Y_train, X_test, Y_test, scaler_y
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from pprint import pprint
 from statistics import mean
-from joblib import dump
+from joblib import dump, load
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
 
 
 def optimize_parameters(model, params):
@@ -99,8 +100,10 @@ for model in MODELS:
     Y_pred = model.predict(X_test)
 
     R2.append(r2_score(Y_test, Y_pred))
-    MAE.append(mean_absolute_error(Y_test, Y_pred))
-    MSE.append(mean_squared_error(Y_test, Y_pred))
+    mae = mean_absolute_error(Y_test, Y_pred)
+    MAE.append(scaler_y.inverse_transform(np.reshape(mae, (-1, 1)))[0][0])
+    mse = mean_squared_error(Y_test, Y_pred)
+    MSE.append(scaler_y.inverse_transform(np.reshape(mse, (-1, 1)))[0][0])
 
     Y_pred = scaler_y.inverse_transform(Y_pred.reshape(-1, 1))
     Y_pred = Y_pred.flatten()

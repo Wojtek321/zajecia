@@ -17,14 +17,13 @@ SIGNALS = ['eyeofthetiger.wav', 'guitar.wav', 'music.wav', 'nirvana.wav', 'noise
 SOFA_PATH = '../assets/sofa_files'
 SOFA_FILES = ['sadie.sofa', 'club_fritz.sofa']
 angles = np.concatenate((range(0, 91, 5), range(270, 360, 5)))
-X = []
 Y = []
+ITDS = []
+ILDS = []
 
 
 # data visualization
 with Dataset(os.path.join(SOFA_PATH, SOFA_FILES[0])) as sofa_file:
-    ITDS = []
-    ILDS = []
     sofa_fs = sofa_file['Data.SamplingRate'][:][0]
     ARR = sofa_file['SourcePosition'][:]
 
@@ -57,6 +56,9 @@ with Dataset(os.path.join(SOFA_PATH, SOFA_FILES[0])) as sofa_file:
 
 
 # data preparation
+
+ITDS = []
+ILDS = []
 for sofa in SOFA_FILES:
     path = os.path.join(SOFA_PATH, sofa)
 
@@ -75,7 +77,7 @@ for sofa in SOFA_FILES:
         data = resample(data, orig_sr=fs, target_sr=sofa_fs)
 
 
-        for angle in np.random.choice(angles, 25):
+        for angle in angles:
             idx = measurement_number(angle, ARR)
 
             H_l = sofa_file["Data.IR"][idx,1,:]
@@ -87,19 +89,33 @@ for sofa in SOFA_FILES:
             itd = ITD(Y_l, Y_r, sofa_fs)
             ild = ILD(Y_l, Y_r)
 
-            X.append([itd, ild])
+            # X.append([itd, ild])
+            ITDS.append(itd)
+            ILDS.append(ild)
             Y.append(angle)
 
 
-scaler_x = MinMaxScaler()
+scaler_itd = MinMaxScaler()
+scaler_ild = MinMaxScaler()
+# scaler_x = MinMaxScaler()
 scaler_y = MinMaxScaler()
 
-X = scaler_x.fit_transform(X)
+# X = scaler_x.fit_transform(X)
+
+ITDS = np.reshape(ITDS, (-1, 1))
+ILDS = np.reshape(ILDS, (-1, 1))
+
+ITDS = scaler_itd.fit_transform(ITDS)
+ILDS = scaler_ild.fit_transform(ILDS)
+
+X = np.column_stack((ITDS, ILDS))
 
 Y = np.array(Y).reshape(-1, 1)
 Y = scaler_y.fit_transform(Y)
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-dump(scaler_x, '../data/scalers/scaler_x.joblib')
+# dump(scaler_x, '../data/scalers/scaler_x.joblib')
+dump(scaler_itd, '../data/scalers/scaler_itd.joblib')
+dump(scaler_ild, '../data/scalers/scaler_ild.joblib')
 dump(scaler_y, '../data/scalers/scaler_y.joblib')
